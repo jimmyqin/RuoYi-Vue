@@ -25,7 +25,7 @@ import com.ruoyi.quartz.service.ISysJobLogService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/jobLog")
+@RequestMapping("monitor/jobLog")
 public class SysJobLogController extends BaseController
 {
     @Autowired
@@ -35,7 +35,7 @@ public class SysJobLogController extends BaseController
      * 查询定时任务调度日志列表
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
-    @GetMapping("/list")
+    @GetMapping("list")
     public TableDataInfo list(SysJobLog sysJobLog)
     {
         startPage();
@@ -48,7 +48,7 @@ public class SysJobLogController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:export')")
     @Log(title = "任务调度日志", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
+    @PostMapping("export")
     public void export(HttpServletResponse response, SysJobLog sysJobLog)
     {
         List<SysJobLog> list = jobLogService.selectJobLogList(sysJobLog);
@@ -72,7 +72,7 @@ public class SysJobLogController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "定时任务调度日志", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{jobLogIds}")
+    @DeleteMapping("{jobLogIds}")
     public AjaxResult remove(@PathVariable Long[] jobLogIds)
     {
         return toAjax(jobLogService.deleteJobLogByIds(jobLogIds));
@@ -83,7 +83,7 @@ public class SysJobLogController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "调度日志", businessType = BusinessType.CLEAN)
-    @DeleteMapping("/clean")
+    @DeleteMapping("clean")
     public AjaxResult clean()
     {
         jobLogService.cleanJobLog();

@@ -2,27 +2,29 @@ package com.ruoyi.framework.aspectj;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.enums.BusinessStatus;
 import com.ruoyi.common.enums.HttpMethod;
-import com.ruoyi.common.filter.PropertyPreExcludeFilter;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -36,17 +38,17 @@ import com.ruoyi.system.domain.SysOperLog;
  * 
  * @author ruoyi
  */
+@RequiredArgsConstructor
+@Slf4j
 @Aspect
 @Component
-public class LogAspect
-{
-    private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
+public class LogAspect {
 
     /** 排除敏感属性字段 */
     public static final String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
-
     /** 计算操作消耗时间 */
     private static final ThreadLocal<Long> TIME_THREADLOCAL = new NamedThreadLocal<Long>("Cost Time");
+    private final ObjectMapper objectMapper;
 
     /**
      * 处理请求前执行
@@ -63,8 +65,7 @@ public class LogAspect
      * @param joinPoint 切点
      */
     @AfterReturning(pointcut = "@annotation(controllerLog)", returning = "jsonResult")
-    public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult)
-    {
+    public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult) {
         handleLog(joinPoint, controllerLog, null, jsonResult);
     }
 
@@ -75,15 +76,12 @@ public class LogAspect
      * @param e 异常
      */
     @AfterThrowing(value = "@annotation(controllerLog)", throwing = "e")
-    public void doAfterThrowing(JoinPoint joinPoint, Log controllerLog, Exception e)
-    {
+    public void doAfterThrowing(JoinPoint joinPoint, Log controllerLog, Exception e) {
         handleLog(joinPoint, controllerLog, e, null);
     }
 
-    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult)
-    {
-        try
-        {
+    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
+        try {
             // 获取当前的用户
             LoginUser loginUser = SecurityUtils.getLoginUser();
 
@@ -94,8 +92,7 @@ public class LogAspect
             String ip = IpUtils.getIpAddr();
             operLog.setOperIp(ip);
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
-            if (loginUser != null)
-            {
+            if (loginUser != null) {
                 operLog.setOperName(loginUser.getUsername());
                 SysUser currentUser = loginUser.getUser();
                 if (StringUtils.isNotNull(currentUser) && StringUtils.isNotNull(currentUser.getDept()))
@@ -104,8 +101,7 @@ public class LogAspect
                 }
             }
 
-            if (e != null)
-            {
+            if (e != null) {
                 operLog.setStatus(BusinessStatus.FAIL.ordinal());
                 operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
@@ -121,15 +117,10 @@ public class LogAspect
             operLog.setCostTime(System.currentTimeMillis() - TIME_THREADLOCAL.get());
             // 保存数据库
             AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
-        }
-        catch (Exception exp)
-        {
+        } catch (Exception exp) {
             // 记录本地异常日志
             log.error("异常信息:{}", exp.getMessage());
-            exp.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             TIME_THREADLOCAL.remove();
         }
     }
@@ -139,10 +130,8 @@ public class LogAspect
      * 
      * @param log 日志
      * @param operLog 操作日志
-     * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception
-    {
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -150,15 +139,13 @@ public class LogAspect
         // 设置操作人类别
         operLog.setOperatorType(log.operatorType().ordinal());
         // 是否需要保存request，参数和值
-        if (log.isSaveRequestData())
-        {
+        if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。
             setRequestValue(joinPoint, operLog, log.excludeParamNames());
         }
         // 是否需要保存response，参数和值
-        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
-        {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult)) {
+            operLog.setJsonResult(StringUtils.substring(objectMapper.writeValueAsString(jsonResult), 0, 2000));
         }
     }
 
@@ -168,55 +155,36 @@ public class LogAspect
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) throws Exception
-    {
+    private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) throws Exception {
         Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
         String requestMethod = operLog.getRequestMethod();
         if (StringUtils.isEmpty(paramsMap)
-                && (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)))
-        {
+                && (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))) {
             String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
-        }
-        else
-        {
-            operLog.setOperParam(StringUtils.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
+        } else {
+            // todo: 需要过滤关键字不序列化
+            operLog.setOperParam(StringUtils.substring(objectMapper.writeValueAsString(paramsMap), 0, 2000));
         }
     }
 
     /**
      * 参数拼装
      */
-    private String argsArrayToString(Object[] paramsArray, String[] excludeParamNames)
-    {
-        String params = "";
-        if (paramsArray != null && paramsArray.length > 0)
-        {
-            for (Object o : paramsArray)
-            {
-                if (StringUtils.isNotNull(o) && !isFilterObject(o))
-                {
-                    try
-                    {
-                        String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
-                        params += jsonObj.toString() + " ";
-                    }
-                    catch (Exception e)
-                    {
-                    }
+    private String argsArrayToString(Object[] paramsArray, String[] excludeParamNames) throws JsonProcessingException {
+        StringBuilder params = new StringBuilder();
+        if (ArrayUtils.isNotEmpty(paramsArray)) {
+            for (Object o : paramsArray) {
+                if (Objects.nonNull(o) && !isFilterObject(o)) {
+                    // todo: 过滤关键字不参与序列化
+                    String jsonObj = objectMapper.writeValueAsString(o);
+                    params.append(jsonObj).append(" ");
                 }
             }
         }
-        return params.trim();
+        return params.toString().trim();
     }
 
-    /**
-     * 忽略敏感属性
-     */
-    public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames)
-    {
-        return new PropertyPreExcludeFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
-    }
 
     /**
      * 判断是否需要过滤的对象。
@@ -224,32 +192,26 @@ public class LogAspect
      * @param o 对象信息。
      * @return 如果是需要过滤的对象，则返回true；否则返回false。
      */
-    @SuppressWarnings("rawtypes")
-    public boolean isFilterObject(final Object o)
-    {
+
+    public boolean isFilterObject(final Object o) {
         Class<?> clazz = o.getClass();
-        if (clazz.isArray())
-        {
+        if (clazz.isArray()) {
             return clazz.getComponentType().isAssignableFrom(MultipartFile.class);
-        }
-        else if (Collection.class.isAssignableFrom(clazz))
-        {
+        } else if (Collection.class.isAssignableFrom(clazz)) {
             Collection collection = (Collection) o;
-            for (Object value : collection)
-            {
+            for (Object value : collection) {
                 return value instanceof MultipartFile;
             }
-        }
-        else if (Map.class.isAssignableFrom(clazz))
-        {
+        } else if (Map.class.isAssignableFrom(clazz)) {
             Map map = (Map) o;
-            for (Object value : map.entrySet())
-            {
+            for (Object value : map.entrySet()) {
                 Map.Entry entry = (Map.Entry) value;
                 return entry.getValue() instanceof MultipartFile;
             }
         }
-        return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
+        return o instanceof MultipartFile
+                || o instanceof HttpServletRequest
+                || o instanceof HttpServletResponse
                 || o instanceof BindingResult;
     }
 }

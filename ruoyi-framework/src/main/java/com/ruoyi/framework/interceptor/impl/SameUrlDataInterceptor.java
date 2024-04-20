@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.core.redis.RedisCache;
@@ -23,11 +24,10 @@ import com.ruoyi.framework.interceptor.RepeatSubmitInterceptor;
  * @author ruoyi
  */
 @Component
-public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
-{
-    public final String REPEAT_PARAMS = "repeatParams";
+public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
+    public final static String REPEAT_PARAMS = "repeatParams";
 
-    public final String REPEAT_TIME = "repeatTime";
+    public final static String REPEAT_TIME = "repeatTime";
 
     // 令牌自定义标识
     @Value("${token.header}")
@@ -38,19 +38,16 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation)
-    {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         String nowParams = "";
-        if (request instanceof RepeatedlyRequestWrapper)
-        {
+        if (request instanceof RepeatedlyRequestWrapper) {
             RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
             nowParams = HttpHelper.getBodyString(repeatedlyRequest);
         }
 
         // body参数为空，获取Parameter的数据
-        if (StringUtils.isEmpty(nowParams))
-        {
-            nowParams = JSON.toJSONString(request.getParameterMap());
+        if (StringUtils.isEmpty(nowParams)) {
+            nowParams = JsonUtils.writeValueAsString(request.getParameterMap());
         }
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
         nowDataMap.put(REPEAT_PARAMS, nowParams);
@@ -66,14 +63,11 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
         String cacheRepeatKey = CacheConstants.REPEAT_SUBMIT_KEY + url + submitKey;
 
         Object sessionObj = redisCache.getCacheObject(cacheRepeatKey);
-        if (sessionObj != null)
-        {
+        if (sessionObj != null) {
             Map<String, Object> sessionMap = (Map<String, Object>) sessionObj;
-            if (sessionMap.containsKey(url))
-            {
+            if (sessionMap.containsKey(url)) {
                 Map<String, Object> preDataMap = (Map<String, Object>) sessionMap.get(url);
-                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap, annotation.interval()))
-                {
+                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap, annotation.interval())) {
                     return true;
                 }
             }
@@ -87,8 +81,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
     /**
      * 判断参数是否相同
      */
-    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap)
-    {
+    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap) {
         String nowParams = (String) nowMap.get(REPEAT_PARAMS);
         String preParams = (String) preMap.get(REPEAT_PARAMS);
         return nowParams.equals(preParams);
@@ -97,14 +90,9 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
     /**
      * 判断两次间隔时间
      */
-    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval)
-    {
+    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval) {
         long time1 = (Long) nowMap.get(REPEAT_TIME);
         long time2 = (Long) preMap.get(REPEAT_TIME);
-        if ((time1 - time2) < interval)
-        {
-            return true;
-        }
-        return false;
+        return (time1 - time2) < interval;
     }
 }

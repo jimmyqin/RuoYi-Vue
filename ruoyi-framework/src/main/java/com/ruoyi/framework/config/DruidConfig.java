@@ -68,12 +68,10 @@ public class DruidConfig
      */
     public void setDataSource(Map<Object, Object> targetDataSources, String sourceName, String beanName)
     {
-        try
-        {
+        try {
             DataSource dataSource = SpringUtils.getBean(beanName);
             targetDataSources.put(sourceName, dataSource);
-        }
-        catch (Exception e)
+        } catch (Exception ignored)
         {
         }
     }
@@ -84,8 +82,7 @@ public class DruidConfig
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.druid.statViewServlet.enabled", havingValue = "true")
-    public FilterRegistrationBean removeDruidFilterRegistrationBean(DruidStatProperties properties)
-    {
+    public FilterRegistrationBean removeDruidFilterRegistrationBean(DruidStatProperties properties) {
         // 获取web监控页面的参数
         DruidStatProperties.StatViewServlet config = properties.getStatViewServlet();
         // 提取common.js的配置路径
@@ -100,9 +97,7 @@ public class DruidConfig
             {
             }
             @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-                    throws IOException, ServletException
-            {
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
                 chain.doFilter(request, response);
                 // 重置缓冲区，响应头不会被重置
                 response.resetBuffer();

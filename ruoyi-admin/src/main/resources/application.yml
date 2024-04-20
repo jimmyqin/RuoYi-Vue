@@ -74,7 +74,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password:
+    password: 123456
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -93,7 +93,7 @@ token:
   # 令牌自定义标识
   header: Authorization
   # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
+  secret: 3243243dsfs54365dfsfs67911ads
   # 令牌有效期（默认30分钟）
   expireTime: 30
 
@@ -112,13 +112,6 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
-  # 请求前缀
-  pathMapping: /dev-api
-
 # 防止XSS攻击
 xss:
   # 过滤开关
@@ -127,3 +120,9 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs  # 自定义路径，默认为 "/v3/api-docs"
+  swagger-ui:
+    path: /swagger-ui/index.html # 自定义路径，默认为"/swagger-ui/index.html"

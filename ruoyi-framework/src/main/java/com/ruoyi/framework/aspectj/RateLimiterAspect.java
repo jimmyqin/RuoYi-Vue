@@ -1,54 +1,44 @@
 package com.ruoyi.framework.aspectj;
 
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.RedisScript;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.annotation.RateLimiter;
 import com.ruoyi.common.enums.LimitType;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 限流处理
  *
  * @author ruoyi
  */
+@Slf4j
+@RequiredArgsConstructor
 @Aspect
 @Component
-public class RateLimiterAspect
-{
-    private static final Logger log = LoggerFactory.getLogger(RateLimiterAspect.class);
+public class RateLimiterAspect {
 
-    private RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisScript<Long> limitScript;
 
-    private RedisScript<Long> limitScript;
 
-    @Autowired
-    public void setRedisTemplate1(RedisTemplate<Object, Object> redisTemplate)
-    {
-        this.redisTemplate = redisTemplate;
-    }
 
-    @Autowired
-    public void setLimitScript(RedisScript<Long> limitScript)
-    {
-        this.limitScript = limitScript;
-    }
 
     @Before("@annotation(rateLimiter)")
-    public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable
-    {
+    public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable {
         int time = rateLimiter.time();
         int count = rateLimiter.count();
 
@@ -75,7 +65,7 @@ public class RateLimiterAspect
 
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point)
     {
-        StringBuffer stringBuffer = new StringBuffer(rateLimiter.key());
+        StringBuilder stringBuffer = new StringBuilder(rateLimiter.key());
         if (rateLimiter.limitType() == LimitType.IP)
         {
             stringBuffer.append(IpUtils.getIpAddr()).append("-");

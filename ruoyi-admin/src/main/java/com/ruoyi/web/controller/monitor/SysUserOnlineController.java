@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,20 +30,16 @@ import com.ruoyi.system.service.ISysUserOnlineService;
  * 
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/monitor/online")
-public class SysUserOnlineController extends BaseController
-{
-    @Autowired
-    private ISysUserOnlineService userOnlineService;
-
-    @Autowired
-    private RedisCache redisCache;
+@RequestMapping("monitor/online")
+public class SysUserOnlineController extends BaseController {
+    private final ISysUserOnlineService userOnlineService;
+    private final RedisCache redisCache;
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(String ipaddr, String userName)
-    {
+    @GetMapping("list")
+    public TableDataInfo list(String ipaddr, String userName) {
         Collection<String> keys = redisCache.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys)
@@ -74,9 +72,8 @@ public class SysUserOnlineController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
-    @DeleteMapping("/{tokenId}")
-    public AjaxResult forceLogout(@PathVariable String tokenId)
-    {
+    @DeleteMapping("{tokenId}")
+    public AjaxResult forceLogout(@PathVariable String tokenId) {
         redisCache.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
         return success();
     }

@@ -8,7 +8,7 @@ spring:
             master:
                 url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: password
+                password: 123456
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
@@ -59,3 +59,9 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
+springdoc:
+    api-docs:
+        enabled: true # 开启OpenApi接口
+    swagger-ui:
+        enabled: true # 开启swagger界面，依赖OpenApi，需要OpenApi同时开启

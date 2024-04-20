@@ -33,7 +33,7 @@ import com.ruoyi.quartz.util.ScheduleUtils;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/job")
+@RequestMapping("monitor/job")
 public class SysJobController extends BaseController
 {
     @Autowired
@@ -43,7 +43,7 @@ public class SysJobController extends BaseController
      * 查询定时任务列表
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
-    @GetMapping("/list")
+    @GetMapping("list")
     public TableDataInfo list(SysJob sysJob)
     {
         startPage();
@@ -56,7 +56,7 @@ public class SysJobController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:export')")
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
+    @PostMapping("export")
     public void export(HttpServletResponse response, SysJob sysJob)
     {
         List<SysJob> list = jobService.selectJobList(sysJob);
@@ -176,7 +176,7 @@ public class SysJobController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{jobIds}")
+    @DeleteMapping("{jobIds}")
     public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException, TaskException
     {
         jobService.deleteJobByIds(jobIds);
