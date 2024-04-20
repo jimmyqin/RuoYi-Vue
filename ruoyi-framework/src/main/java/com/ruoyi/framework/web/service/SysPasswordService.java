@@ -1,9 +1,12 @@
 package com.ruoyi.framework.web.service;
 
 import java.util.concurrent.TimeUnit;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -18,6 +21,7 @@ import com.ruoyi.framework.security.context.AuthenticationContextHolder;
  * 
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @Component
 public class SysPasswordService
 {
@@ -29,6 +33,8 @@ public class SysPasswordService
 
     @Value(value = "${user.password.lockTime}")
     private int lockTime;
+
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 登录账户密码错误次数缓存键名
@@ -59,7 +65,7 @@ public class SysPasswordService
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
         }
 
-        if (!matches(user, password))
+        if (!passwordEncoder.matches(user.getPassword(), password))
         {
             retryCount = retryCount + 1;
             redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
@@ -69,11 +75,6 @@ public class SysPasswordService
         {
             clearLoginRecordCache(username);
         }
-    }
-
-    public boolean matches(SysUser user, String rawPassword)
-    {
-        return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }
 
     public void clearLoginRecordCache(String loginName)

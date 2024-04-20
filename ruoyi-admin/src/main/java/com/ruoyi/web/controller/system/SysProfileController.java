@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.system;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,6 +36,8 @@ public class SysProfileController extends BaseController
 {
     private final ISysUserService userService;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
+
 
     /**
      * 个人信息
@@ -84,13 +87,13 @@ public class SysProfileController extends BaseController
         LoginUser loginUser = getLoginUser();
         String userName = loginUser.getUsername();
         String password = loginUser.getPassword();
-        if (!SecurityUtils.matchesPassword(oldPassword, password)) {
+        if (!passwordEncoder.matches(oldPassword, password)) {
             return error("修改密码失败，旧密码错误");
         }
-        if (SecurityUtils.matchesPassword(newPassword, password)) {
+        if (passwordEncoder.matches(newPassword, password)) {
             return error("新密码不能与旧密码相同");
         }
-        newPassword = SecurityUtils.encryptPassword(newPassword);
+        newPassword = passwordEncoder.encode(newPassword);
         if (userService.resetUserPwd(userName, newPassword) > 0) {
             // 更新缓存用户密码
             loginUser.getUser().setPassword(newPassword);

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class SysUserController extends BaseController {
     private final ISysRoleService roleService;
     private final ISysDeptService deptService;
     private final ISysPostService postService;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 获取用户列表
@@ -118,8 +120,7 @@ public class SysUserController extends BaseController {
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
             return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setCreateBy(getUsername());
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return toAjax(userService.insertUser(user));
     }
 
@@ -139,7 +140,6 @@ public class SysUserController extends BaseController {
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
             return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUpdateBy(getUsername());
         return toAjax(userService.updateUser(user));
     }
 
@@ -165,8 +165,7 @@ public class SysUserController extends BaseController {
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        user.setUpdateBy(getUsername());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return toAjax(userService.resetPwd(user));
     }
 
@@ -179,7 +178,6 @@ public class SysUserController extends BaseController {
     public AjaxResult changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        user.setUpdateBy(getUsername());
         return toAjax(userService.updateUserStatus(user));
     }
 

@@ -1,6 +1,8 @@
 package com.ruoyi.framework.web.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
@@ -23,6 +25,7 @@ import com.ruoyi.system.service.ISysUserService;
  * 
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @Component
 public class SysRegisterService
 {
@@ -34,6 +37,7 @@ public class SysRegisterService
 
     @Autowired
     private RedisCache redisCache;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 注册
@@ -76,7 +80,7 @@ public class SysRegisterService
         else
         {
             sysUser.setNickName(username);
-            sysUser.setPassword(SecurityUtils.encryptPassword(password));
+            sysUser.setPassword(passwordEncoder.encode(password));
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag)
             {

@@ -123,7 +123,7 @@ public class LoginUser implements UserDetails
     @Override
     public String getPassword()
     {
-        return user.getPassword();
+        return "{bcrypt}" + user.getPassword();
     }
 
     @Override
