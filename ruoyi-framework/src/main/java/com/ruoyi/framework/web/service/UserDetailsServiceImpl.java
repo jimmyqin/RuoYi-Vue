@@ -1,5 +1,7 @@
 package com.ruoyi.framework.web.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,14 @@ import com.ruoyi.system.service.ISysUserService;
  *
  * @author ruoyi
  */
+@RequiredArgsConstructor
+@Slf4j
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService
-{
-    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private ISysUserService userService;
-    
-    @Autowired
-    private SysPasswordService passwordService;
-
-    @Autowired
-    private SysPermissionService permissionService;
+    private final ISysUserService userService;
+    private final SysPasswordService passwordService;
+    private final SysPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -53,7 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
             log.info("登录用户：{} 已被停用.", username);
             throw new ServiceException(MessageUtils.message("user.blocked"));
         }
-
+        // todo: 密码验证要改造
         passwordService.validate(user);
 
         return createLoginUser(user);

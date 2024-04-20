@@ -65,6 +65,10 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
     {
         return urls;
     }
+    public String[] getUrlsArray()
+    {
+        return urls.toArray(new String[0]);
+    }
 
     public void setUrls(List<String> urls)
     {

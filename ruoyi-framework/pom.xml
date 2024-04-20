@@ -11,9 +11,7 @@
 
     <artifactId>ruoyi-framework</artifactId>
 
-    <description>
-        framework框架核心
-    </description>
+    <description>framework框架核心</description>
 
     <dependencies>
 
@@ -29,12 +27,6 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- 阿里数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- 验证码 -->
         <dependency>
             <groupId>pro.fessional</groupId>
@@ -42,7 +34,7 @@
             <exclusions>
                 <exclusion>
                     <artifactId>servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
+                    <groupId>jakarta.servlet</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

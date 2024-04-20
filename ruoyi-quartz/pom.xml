@@ -11,9 +11,7 @@
 
     <artifactId>ruoyi-quartz</artifactId>
 
-    <description>
-        quartz定时任务
-    </description>
+    <description>quartz定时任务</description>
 
     <dependencies>
 

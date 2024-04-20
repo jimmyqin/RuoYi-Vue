@@ -11,9 +11,7 @@
 
     <artifactId>ruoyi-generator</artifactId>
 
-    <description>
-        generator代码生成
-    </description>
+    <description>generator代码生成</description>
 
     <dependencies>
 
@@ -28,11 +26,9 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common</artifactId>
         </dependency>
-
-        <!-- 阿里数据库连接池 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
         </dependency>
 
     </dependencies>

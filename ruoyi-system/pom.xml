@@ -11,9 +11,7 @@
 
     <artifactId>ruoyi-system</artifactId>
 
-    <description>
-        system系统模块
-    </description>
+    <description>system系统模块</description>
 
     <dependencies>
 

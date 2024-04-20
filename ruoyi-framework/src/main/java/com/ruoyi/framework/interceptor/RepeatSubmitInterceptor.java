@@ -1,8 +1,9 @@
 package com.ruoyi.framework.interceptor;
 
 import java.lang.reflect.Method;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.utils.JsonUtils;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,9 @@ import com.ruoyi.common.utils.ServletUtils;
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor
 {
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();

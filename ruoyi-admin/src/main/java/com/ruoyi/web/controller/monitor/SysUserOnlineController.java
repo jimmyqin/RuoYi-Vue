@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +31,7 @@ import com.ruoyi.system.service.ISysUserOnlineService;
  * 
  * @author ruoyi
  */
+@Tag(name = "在线用户监控")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("monitor/online")
