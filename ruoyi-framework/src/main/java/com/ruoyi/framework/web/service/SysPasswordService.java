@@ -47,34 +47,24 @@ public class SysPasswordService
         return CacheConstants.PWD_ERR_CNT_KEY + username;
     }
 
-    public void validate(SysUser user)
-    {
-        Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
-        String username = usernamePasswordAuthenticationToken.getName();
-        String password = usernamePasswordAuthenticationToken.getCredentials().toString();
+    public void validate(String username) {
 
         Integer retryCount = redisCache.getCacheObject(getCacheKey(username));
 
-        if (retryCount == null)
-        {
+        if (retryCount == null) {
             retryCount = 0;
         }
 
-        if (retryCount >= Integer.valueOf(maxRetryCount).intValue())
-        {
+        if (retryCount.compareTo(maxRetryCount) >= 0) {
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
         }
+    }
 
-        if (!passwordEncoder.matches(user.getPassword(), password))
-        {
-            retryCount = retryCount + 1;
-            redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
-            throw new UserPasswordNotMatchException();
-        }
-        else
-        {
-            clearLoginRecordCache(username);
-        }
+    public void addFailCount(String username) {
+        Integer retryCount = redisCache.getCacheObject(getCacheKey(username));
+        retryCount = retryCount + 1;
+        redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
+        throw new UserPasswordNotMatchException();
     }
 
     public void clearLoginRecordCache(String loginName)

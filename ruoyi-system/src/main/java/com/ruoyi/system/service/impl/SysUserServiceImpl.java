@@ -43,7 +43,7 @@ public class SysUserServiceImpl implements ISysUserService {
     private final SysUserRoleMapper userRoleMapper;
     private final SysUserPostMapper userPostMapper;
     private final ISysConfigService configService;
-    protected final Validator validator;
+    private final Validator validator;
     private final PasswordEncoder passwordEncoder;
 
     /**

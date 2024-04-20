@@ -20,7 +20,7 @@
         <spring-boot.version>3.2.5</spring-boot.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.3</kaptcha.version>
-        <pagehelper.boot.version>2.1.0</pagehelper.boot.version>
+        <pagehelper.boot.version>2.0.0</pagehelper.boot.version>
         <oshi.version>6.5.0</oshi.version>
         <commons.io.version>2.13.0</commons.io.version>
         <poi.version>4.1.2</poi.version>

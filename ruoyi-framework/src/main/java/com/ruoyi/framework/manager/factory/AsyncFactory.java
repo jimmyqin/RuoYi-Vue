@@ -34,9 +34,7 @@ public class AsyncFactory
      * @param args 列表
      * @return 任务task
      */
-    public static TimerTask recordLogininfor(final String username, final String status, final String message,
-            final Object... args)
-    {
+    public static TimerTask recordLogininfor(final String username, final String status, final String message, final Object... args) {
         final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
         final String ip = IpUtils.getIpAddr();
         return new TimerTask()
@@ -60,6 +58,8 @@ public class AsyncFactory
                 // 封装对象
                 SysLogininfor logininfor = new SysLogininfor();
                 logininfor.setUserName(username);
+                logininfor.setCreateBy(username);
+                logininfor.setUpdateBy(username);
                 logininfor.setIpaddr(ip);
                 logininfor.setLoginLocation(address);
                 logininfor.setBrowser(browser);

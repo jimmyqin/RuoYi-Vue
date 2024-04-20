@@ -2,6 +2,7 @@ package com.ruoyi.common.core.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.enums.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
@@ -12,9 +13,7 @@ import java.util.Set;
  * 
  * @author ruoyi
  */
-public class LoginUser implements UserDetails
-{
-    private static final long serialVersionUID = 1L;
+public class LoginUser implements UserDetails {
 
     /**
      * 用户ID
@@ -71,18 +70,15 @@ public class LoginUser implements UserDetails
      */
     private SysUser user;
 
-    public LoginUser()
-    {
+    public LoginUser() {
     }
 
-    public LoginUser(SysUser user, Set<String> permissions)
-    {
+    public LoginUser(SysUser user, Set<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
-    {
+    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions) {
         this.userId = userId;
         this.deptId = deptId;
         this.user = user;
@@ -121,8 +117,7 @@ public class LoginUser implements UserDetails
 
     @JsonIgnore
     @Override
-    public String getPassword()
-    {
+    public String getPassword() {
         return "{bcrypt}" + user.getPassword();
     }
 
@@ -137,9 +132,8 @@ public class LoginUser implements UserDetails
      */
     @JsonIgnore
     @Override
-    public boolean isAccountNonExpired()
-    {
-        return true;
+    public boolean isAccountNonExpired() {
+        return !UserStatus.DELETED.getCode().equals(user.getStatus());
     }
 
     /**
@@ -149,9 +143,8 @@ public class LoginUser implements UserDetails
      */
     @JsonIgnore
     @Override
-    public boolean isAccountNonLocked()
-    {
-        return true;
+    public boolean isAccountNonLocked() {
+        return !UserStatus.DISABLE.getCode().equals(user.getStatus());
     }
 
     /**
@@ -161,9 +154,8 @@ public class LoginUser implements UserDetails
      */
     @JsonIgnore
     @Override
-    public boolean isCredentialsNonExpired()
-    {
-        return true;
+    public boolean isCredentialsNonExpired() {
+        return !UserStatus.DELETED.getCode().equals(user.getDelFlag());
     }
 
     /**
@@ -173,9 +165,8 @@ public class LoginUser implements UserDetails
      */
     @JsonIgnore
     @Override
-    public boolean isEnabled()
-    {
-        return true;
+    public boolean isEnabled() {
+        return UserStatus.OK.getCode().equals(user.getStatus());
     }
 
     public Long getLoginTime()

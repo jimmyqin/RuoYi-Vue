@@ -2,8 +2,8 @@ package com.ruoyi.framework.config;
 
 import com.github.yitter.contract.IIdGenerator;
 import com.ruoyi.common.annotation.*;
-import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.enums.DelEnum;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * 字段填充拦截
@@ -42,9 +43,8 @@ public class FillFieldInterceptor implements Interceptor {
                 if (modify[0] >= 2) {
                     break;
                 }
-                field.setAccessible(true);
-                doModify(UpdateTime.class, field, arg, LocalDateTime.now(), modify);
-                doModify(UpdateBy.class, field, arg, SecurityUtils.getUsername(), modify);
+                doModify(UpdateTime.class, field, arg, LocalDateTime::now, modify);
+                doModify(UpdateBy.class, field, arg, SecurityUtils::getUsername, modify);
             }
 
         } else if(mappedStatement.getSqlCommandType() == SqlCommandType.INSERT) {
@@ -52,11 +52,10 @@ public class FillFieldInterceptor implements Interceptor {
                 if (modify[0] >= 4) {
                     break;
                 }
-                field.setAccessible(true);
-                doModify(Id.class, field, arg, idGenerator.newLong(), modify);
-                doModify(CreateTime.class, field, arg, LocalDateTime.now(), modify);
-                doModify(CreateBy.class, field, arg, SecurityUtils.getUsername(), modify);
-                doModify(DelFlag.class, field, arg, DelEnum.SHOW.getCode(), modify);
+                doModify(Id.class, field, arg, idGenerator::newLong, modify);
+                doModify(CreateTime.class, field, arg, LocalDateTime::now, modify);
+                doModify(CreateBy.class, field, arg, SecurityUtils::getUsername, modify);
+                doModify(DelFlag.class, field, arg, DelEnum.SHOW::getCode, modify);
 
             }
         }
@@ -73,9 +72,11 @@ public class FillFieldInterceptor implements Interceptor {
 
     }
 
-    private void doModify(Class<? extends Annotation> annotationClass, Field field, Object arg, Object value, int[] modify) throws IllegalAccessException {
+    private void doModify(Class<? extends Annotation> annotationClass, Field field, Object arg, Supplier<Object> supplier, int[] modify) throws IllegalAccessException {
         if ((field.isAnnotationPresent(annotationClass))) {
+            field.setAccessible(true);
             if (field.get(arg) == null) {
+                Object value = supplier.get();
                 field.set(arg, value);
             }
             modify[0]++;

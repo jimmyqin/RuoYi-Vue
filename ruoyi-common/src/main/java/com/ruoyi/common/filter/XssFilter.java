@@ -27,8 +27,7 @@ public class XssFilter implements Filter
     public List<String> excludes = new ArrayList<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException
-    {
+    public void init(FilterConfig filterConfig) {
         String tempExcludes = filterConfig.getInitParameter("excludes");
         if (StringUtils.isNotEmpty(tempExcludes))
         {

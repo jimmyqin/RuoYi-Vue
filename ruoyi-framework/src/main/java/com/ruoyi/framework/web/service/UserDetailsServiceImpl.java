@@ -1,21 +1,17 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.MessageUtils;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.common.core.domain.model.LoginUser;
-import com.ruoyi.common.enums.UserStatus;
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.system.service.ISysUserService;
+
+import java.util.Optional;
 
 /**
  * 用户验证处理
@@ -28,36 +24,18 @@ import com.ruoyi.system.service.ISysUserService;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final ISysUserService userService;
-    private final SysPasswordService passwordService;
     private final SysPermissionService permissionService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(user))
-        {
-            log.info("登录用户：{} 不存在.", username);
-            throw new ServiceException(MessageUtils.message("user.not.exists"));
-        }
-        else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
-        {
-            log.info("登录用户：{} 已被删除.", username);
-            throw new ServiceException(MessageUtils.message("user.password.delete"));
-        }
-        else if (UserStatus.DISABLE.getCode().equals(user.getStatus()))
-        {
-            log.info("登录用户：{} 已被停用.", username);
-            throw new ServiceException(MessageUtils.message("user.blocked"));
-        }
-        // todo: 密码验证要改造
-        passwordService.validate(user);
+        return Optional.ofNullable(user)
+                .map(this::createLoginUser)
+                .orElseThrow(() -> new UsernameNotFoundException(MessageUtils.message("user.not.exists")));
 
-        return createLoginUser(user);
     }
 
-    public UserDetails createLoginUser(SysUser user)
-    {
+    private UserDetails createLoginUser(SysUser user) {
         return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
     }
 }

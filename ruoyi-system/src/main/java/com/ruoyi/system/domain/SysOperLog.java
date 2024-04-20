@@ -12,9 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 
  * @author ruoyi
  */
-public class SysOperLog extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class SysOperLog extends BaseEntity {
 
     /** 日志主键 */
     @Excel(name = "操作序号", cellType = ColumnType.NUMERIC)

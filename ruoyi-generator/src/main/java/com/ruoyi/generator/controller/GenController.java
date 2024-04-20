@@ -67,7 +67,7 @@ public class GenController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:query')")
     @GetMapping(value = "/{tableId}")
-    public AjaxResult getInfo(@PathVariable Long tableId)
+    public AjaxResult getInfo(@PathVariable("tableId") Long tableId)
     {
         GenTable table = genTableService.selectGenTableById(tableId);
         List<GenTable> tables = genTableService.selectGenTableAll();
@@ -168,7 +168,7 @@ public class GenController extends BaseController
     @PreAuthorize("@ss.hasPermi('tool:gen:remove')")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
     @DeleteMapping("{tableIds}")
-    public AjaxResult remove(@PathVariable Long[] tableIds)
+    public AjaxResult remove(@PathVariable("tableIds") Long[] tableIds)
     {
         genTableService.deleteGenTableByIds(tableIds);
         return success();

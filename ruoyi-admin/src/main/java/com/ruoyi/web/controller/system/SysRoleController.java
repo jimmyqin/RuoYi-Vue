@@ -69,7 +69,7 @@ public class SysRoleController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:role:query')")
     @GetMapping(value = "/{roleId}")
-    public AjaxResult getInfo(@PathVariable Long roleId) {
+    public AjaxResult getInfo(@PathVariable("roleId") Long roleId) {
         roleService.checkRoleDataScope(roleId);
         return success(roleService.selectRoleById(roleId));
     }
@@ -151,7 +151,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:remove')")
     @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @DeleteMapping("{roleIds}")
-    public AjaxResult remove(@PathVariable Long[] roleIds)
+    public AjaxResult remove(@PathVariable("roleIds") Long[] roleIds)
     {
         return toAjax(roleService.deleteRoleByIds(roleIds));
     }

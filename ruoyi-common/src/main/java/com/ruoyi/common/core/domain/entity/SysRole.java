@@ -15,9 +15,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 
  * @author ruoyi
  */
-public class SysRole extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class SysRole extends BaseEntity {
 
     /** 角色ID */
     @Excel(name = "角色序号", cellType = ColumnType.NUMERIC)
