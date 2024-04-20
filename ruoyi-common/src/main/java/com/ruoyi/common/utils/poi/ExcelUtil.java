@@ -88,9 +88,10 @@ import com.ruoyi.common.utils.reflect.ReflectUtils;
 
 /**
  * Excel相关处理
- * 
+ *  使用easyexcel操作,请使用工具类 {@link com.ruoyi.common.utils.ExcelUtils }
  * @author ruoyi
  */
+@Deprecated
 public class ExcelUtil<T>
 {
     private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);

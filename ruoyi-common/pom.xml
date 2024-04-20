@@ -118,6 +118,14 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.yitter</groupId>
+            <artifactId>yitter-idgenerator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import jakarta.validation.constraints.*;
@@ -68,7 +69,7 @@ public class SysUser extends BaseEntity
 
     /** 最后登录时间 */
     @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
-    private Date loginDate;
+    private LocalDateTime loginDate;
 
     /** 部门对象 */
     @Excels({
@@ -237,12 +238,12 @@ public class SysUser extends BaseEntity
         this.loginIp = loginIp;
     }
 
-    public Date getLoginDate()
+    public LocalDateTime getLoginDate()
     {
         return loginDate;
     }
 
-    public void setLoginDate(Date loginDate)
+    public void setLoginDate(LocalDateTime loginDate)
     {
         this.loginDate = loginDate;
     }

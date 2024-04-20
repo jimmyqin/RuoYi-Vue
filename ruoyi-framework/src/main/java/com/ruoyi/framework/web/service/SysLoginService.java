@@ -29,6 +29,8 @@ import com.ruoyi.framework.security.context.AuthenticationContextHolder;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
 
+import java.time.LocalDateTime;
+
 /**
  * 登录校验方法
  * 
@@ -170,12 +172,11 @@ public class SysLoginService
      *
      * @param userId 用户ID
      */
-    public void recordLoginInfo(Long userId)
-    {
+    public void recordLoginInfo(Long userId) {
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
         sysUser.setLoginIp(IpUtils.getIpAddr());
-        sysUser.setLoginDate(DateUtils.getNowDate());
+        sysUser.setLoginDate(LocalDateTime.now());
         userService.updateUserProfile(sysUser);
     }
 }

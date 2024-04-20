@@ -1,11 +1,5 @@
 package com.ruoyi.quartz.util;
 
-import java.util.Date;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.ExceptionUtil;
@@ -15,37 +9,37 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.domain.SysJobLog;
 import com.ruoyi.quartz.service.ISysJobLogService;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 /**
  * 抽象quartz调用
  *
  * @author ruoyi
  */
-public abstract class AbstractQuartzJob implements Job
-{
+public abstract class AbstractQuartzJob implements Job {
     private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);
 
     /**
      * 线程本地变量
      */
-    private static ThreadLocal<Date> threadLocal = new ThreadLocal<>();
+    private static ThreadLocal<LocalDateTime> threadLocal = new ThreadLocal<>();
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException
-    {
+    public void execute(JobExecutionContext context) throws JobExecutionException {
         SysJob sysJob = new SysJob();
         BeanUtils.copyBeanProp(sysJob, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
-        try
-        {
+        try {
             before(context, sysJob);
-            if (sysJob != null)
-            {
-                doExecute(context, sysJob);
-            }
+            doExecute(context, sysJob);
             after(context, sysJob, null);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("任务执行异常  - ：", e);
             after(context, sysJob, e);
         }
@@ -57,9 +51,8 @@ public abstract class AbstractQuartzJob implements Job
      * @param context 工作执行上下文对象
      * @param sysJob 系统计划任务
      */
-    protected void before(JobExecutionContext context, SysJob sysJob)
-    {
-        threadLocal.set(new Date());
+    protected void before(JobExecutionContext context, SysJob sysJob) {
+        threadLocal.set(LocalDateTime.now());
     }
 
     /**
@@ -68,9 +61,8 @@ public abstract class AbstractQuartzJob implements Job
      * @param context 工作执行上下文对象
      * @param sysJob 系统计划任务
      */
-    protected void after(JobExecutionContext context, SysJob sysJob, Exception e)
-    {
-        Date startTime = threadLocal.get();
+    protected void after(JobExecutionContext context, SysJob sysJob, Exception e) {
+        LocalDateTime startTime = threadLocal.get();
         threadLocal.remove();
 
         final SysJobLog sysJobLog = new SysJobLog();
@@ -78,17 +70,16 @@ public abstract class AbstractQuartzJob implements Job
         sysJobLog.setJobGroup(sysJob.getJobGroup());
         sysJobLog.setInvokeTarget(sysJob.getInvokeTarget());
         sysJobLog.setStartTime(startTime);
-        sysJobLog.setStopTime(new Date());
-        long runMs = sysJobLog.getStopTime().getTime() - sysJobLog.getStartTime().getTime();
+        sysJobLog.setStopTime(LocalDateTime.now());
+        long end = sysJobLog.getStopTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        long start = sysJobLog.getStartTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        long runMs = end - start;
         sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
-        if (e != null)
-        {
+        if (e != null){
             sysJobLog.setStatus(Constants.FAIL);
             String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
             sysJobLog.setExceptionInfo(errorMsg);
-        }
-        else
-        {
+        } else {
             sysJobLog.setStatus(Constants.SUCCESS);
         }
 

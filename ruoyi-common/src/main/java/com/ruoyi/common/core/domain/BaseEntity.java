@@ -1,39 +1,45 @@
 package com.ruoyi.common.core.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ruoyi.common.annotation.CreateBy;
+import com.ruoyi.common.annotation.CreateTime;
+import com.ruoyi.common.annotation.UpdateBy;
+import com.ruoyi.common.annotation.UpdateTime;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Entity基类
  * 
  * @author ruoyi
  */
-public class BaseEntity implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+public class BaseEntity  {
 
     /** 搜索值 */
     @JsonIgnore
     private String searchValue;
 
     /** 创建者 */
+    @CreateBy
     private String createBy;
 
     /** 创建时间 */
+    @CreateTime
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /** 更新者 */
+    @UpdateBy
     private String updateBy;
 
     /** 更新时间 */
+    @UpdateTime
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /** 备注 */
     private String remark;
@@ -62,12 +68,12 @@ public class BaseEntity implements Serializable
         this.createBy = createBy;
     }
 
-    public Date getCreateTime()
+    public LocalDateTime getCreateTime()
     {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime)
+    public void setCreateTime(LocalDateTime createTime)
     {
         this.createTime = createTime;
     }
@@ -82,12 +88,12 @@ public class BaseEntity implements Serializable
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateTime()
+    public LocalDateTime getUpdateTime()
     {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime)
+    public void setUpdateTime(LocalDateTime updateTime)
     {
         this.updateTime = updateTime;
     }
