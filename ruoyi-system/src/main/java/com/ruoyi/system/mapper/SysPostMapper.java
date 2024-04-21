@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysPost;
+
+import java.util.List;
 
 /**
  * 岗位信息 数据层
@@ -63,7 +63,7 @@ public interface SysPostMapper {
      * @param postIds 需要删除的岗位ID
      * @return 结果
      */
-    int deletePostByIds(Long[] postIds);
+    Long deletePostByIds(Long[] postIds);
 
     /**
      * 修改岗位信息
@@ -71,7 +71,7 @@ public interface SysPostMapper {
      * @param post 岗位信息
      * @return 结果
      */
-    int updatePost(SysPost post);
+    Long updatePost(SysPost post);
 
     /**
      * 新增岗位信息
@@ -79,7 +79,7 @@ public interface SysPostMapper {
      * @param post 岗位信息
      * @return 结果
      */
-    int insertPost(SysPost post);
+    Long insertPost(SysPost post);
 
     /**
      * 校验岗位名称

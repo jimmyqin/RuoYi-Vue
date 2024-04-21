@@ -1,9 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import com.ruoyi.common.core.domain.entity.SysMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 菜单表 数据层
@@ -96,7 +96,7 @@ public interface SysMenuMapper {
      * @param menu 菜单信息
      * @return 结果
      */
-    int insertMenu(SysMenu menu);
+    Long insertMenu(SysMenu menu);
 
     /**
      * 修改菜单信息
@@ -104,7 +104,7 @@ public interface SysMenuMapper {
      * @param menu 菜单信息
      * @return 结果
      */
-    int updateMenu(SysMenu menu);
+    Long updateMenu(SysMenu menu);
 
     /**
      * 删除菜单管理信息
@@ -112,7 +112,7 @@ public interface SysMenuMapper {
      * @param menuId 菜单ID
      * @return 结果
      */
-    int deleteMenuById(Long menuId);
+    Long deleteMenuById(Long menuId);
 
     /**
      * 校验菜单名称是否唯一

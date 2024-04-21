@@ -48,7 +48,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
      * @return 结果
      */
     @Override
-    public int deleteOperLogByIds(Long[] operIds) {
+    public Long deleteOperLogByIds(Long[] operIds) {
         return operLogMapper.deleteOperLogByIds(operIds);
     }
 

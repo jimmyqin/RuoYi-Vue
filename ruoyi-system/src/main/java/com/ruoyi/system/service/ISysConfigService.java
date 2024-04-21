@@ -1,8 +1,8 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysConfig;
+
+import java.util.List;
 
 /**
  * 参数配置 服务层
@@ -47,7 +47,7 @@ public interface ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
-    int insertConfig(SysConfig config);
+    Long insertConfig(SysConfig config);
 
     /**
      * 修改参数配置
@@ -55,7 +55,7 @@ public interface ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
-    int updateConfig(SysConfig config);
+    Long updateConfig(SysConfig config);
 
     /**
      * 批量删除参数信息

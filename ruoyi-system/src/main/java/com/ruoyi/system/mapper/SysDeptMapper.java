@@ -1,9 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import com.ruoyi.common.core.domain.entity.SysDept;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 部门管理 数据层
@@ -83,7 +83,7 @@ public interface SysDeptMapper {
      * @param dept 部门信息
      * @return 结果
      */
-    int insertDept(SysDept dept);
+    Long insertDept(SysDept dept);
 
     /**
      * 修改部门信息
@@ -91,7 +91,7 @@ public interface SysDeptMapper {
      * @param dept 部门信息
      * @return 结果
      */
-    int updateDept(SysDept dept);
+    Long updateDept(SysDept dept);
 
     /**
      * 修改所在部门正常状态
@@ -114,5 +114,5 @@ public interface SysDeptMapper {
      * @param deptId 部门ID
      * @return 结果
      */
-    int deleteDeptById(Long deptId);
+    Long deleteDeptById(Long deptId);
 }

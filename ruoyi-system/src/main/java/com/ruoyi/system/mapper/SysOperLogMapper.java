@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysOperLog;
+
+import java.util.List;
 
 /**
  * 操作日志 数据层
@@ -31,7 +31,7 @@ public interface SysOperLogMapper {
      * @param operIds 需要删除的操作日志ID
      * @return 结果
      */
-    int deleteOperLogByIds(Long[] operIds);
+    Long deleteOperLogByIds(Long[] operIds);
 
     /**
      * 查询操作日志详细

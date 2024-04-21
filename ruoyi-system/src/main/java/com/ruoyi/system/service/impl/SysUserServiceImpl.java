@@ -239,10 +239,10 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional
-    public int insertUser(SysUser user)
+    public Long insertUser(SysUser user)
     {
         // 新增用户信息
-        int rows = userMapper.insertUser(user);
+        Long rows = userMapper.insertUser(user);
         // 新增用户岗位关联
         insertUserPost(user);
         // 新增用户与角色管理
@@ -270,7 +270,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional
-    public int updateUser(SysUser user)
+    public Long updateUser(SysUser user)
     {
         Long userId = user.getUserId();
         // 删除用户与角色关联
@@ -305,7 +305,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public int updateUserStatus(SysUser user)
+    public Long updateUserStatus(SysUser user)
     {
         return userMapper.updateUser(user);
     }
@@ -317,7 +317,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public int updateUserProfile(SysUser user)
+    public Long updateUserProfile(SysUser user)
     {
         return userMapper.updateUser(user);
     }
@@ -342,7 +342,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public int resetPwd(SysUser user)
+    public Long resetPwd(SysUser user)
     {
         return userMapper.updateUser(user);
     }
@@ -355,7 +355,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public int resetUserPwd(String userName, String password)
+    public Long resetUserPwd(String userName, String password)
     {
         return userMapper.resetUserPwd(userName, password);
     }
@@ -424,7 +424,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional
-    public int deleteUserById(Long userId)
+    public Long deleteUserById(Long userId)
     {
         // 删除用户与角色关联
         userRoleMapper.deleteUserRoleByUserId(userId);
@@ -441,7 +441,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional
-    public int deleteUserByIds(Long[] userIds)
+    public Long deleteUserByIds(Long[] userIds)
     {
         for (Long userId : userIds)
         {

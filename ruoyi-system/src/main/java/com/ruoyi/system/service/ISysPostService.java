@@ -1,8 +1,8 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysPost;
+
+import java.util.List;
 
 /**
  * 岗位信息 服务层
@@ -79,7 +79,7 @@ public interface ISysPostService {
      * @param postIds 需要删除的岗位ID
      * @return 结果
      */
-    int deletePostByIds(Long[] postIds);
+    Long deletePostByIds(Long[] postIds);
 
     /**
      * 新增保存岗位信息
@@ -87,7 +87,7 @@ public interface ISysPostService {
      * @param post 岗位信息
      * @return 结果
      */
-    int insertPost(SysPost post);
+    Long insertPost(SysPost post);
 
     /**
      * 修改保存岗位信息
@@ -95,5 +95,5 @@ public interface ISysPostService {
      * @param post 岗位信息
      * @return 结果
      */
-    int updatePost(SysPost post);
+    Long updatePost(SysPost post);
 }

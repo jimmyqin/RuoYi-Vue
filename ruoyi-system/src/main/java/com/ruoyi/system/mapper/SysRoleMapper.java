@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.common.core.domain.entity.SysRole;
+
+import java.util.List;
 
 /**
  * 角色表 数据层
@@ -79,7 +79,7 @@ public interface SysRoleMapper {
      * @param role 角色信息
      * @return 结果
      */
-    int updateRole(SysRole role);
+    Long updateRole(SysRole role);
 
     /**
      * 新增角色信息
@@ -87,7 +87,7 @@ public interface SysRoleMapper {
      * @param role 角色信息
      * @return 结果
      */
-    int insertRole(SysRole role);
+    Long insertRole(SysRole role);
 
     /**
      * 通过角色ID删除角色
@@ -95,7 +95,7 @@ public interface SysRoleMapper {
      * @param roleId 角色ID
      * @return 结果
      */
-    int deleteRoleById(Long roleId);
+    Long deleteRoleById(Long roleId);
 
     /**
      * 批量删除角色信息
@@ -103,5 +103,5 @@ public interface SysRoleMapper {
      * @param roleIds 需要删除的角色ID
      * @return 结果
      */
-    int deleteRoleByIds(Long[] roleIds);
+    Long deleteRoleByIds(Long[] roleIds);
 }

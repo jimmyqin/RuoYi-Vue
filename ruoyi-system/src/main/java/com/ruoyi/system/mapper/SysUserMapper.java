@@ -1,9 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 用户表 数据层
@@ -57,7 +57,7 @@ public interface SysUserMapper {
      * @param user 用户信息
      * @return 结果
      */
-    int insertUser(SysUser user);
+    Long insertUser(SysUser user);
 
     /**
      * 修改用户信息
@@ -65,7 +65,7 @@ public interface SysUserMapper {
      * @param user 用户信息
      * @return 结果
      */
-    int updateUser(SysUser user);
+    Long updateUser(SysUser user);
 
     /**
      * 修改用户头像
@@ -74,7 +74,7 @@ public interface SysUserMapper {
      * @param avatar   头像地址
      * @return 结果
      */
-    int updateUserAvatar(@Param("userName") String userName, @Param("avatar") String avatar);
+    Long updateUserAvatar(@Param("userName") String userName, @Param("avatar") String avatar);
 
     /**
      * 重置用户密码
@@ -83,7 +83,7 @@ public interface SysUserMapper {
      * @param password 密码
      * @return 结果
      */
-    int resetUserPwd(@Param("userName") String userName, @Param("password") String password);
+    Long resetUserPwd(@Param("userName") String userName, @Param("password") String password);
 
     /**
      * 通过用户ID删除用户
@@ -91,7 +91,7 @@ public interface SysUserMapper {
      * @param userId 用户ID
      * @return 结果
      */
-    int deleteUserById(Long userId);
+    Long deleteUserById(Long userId);
 
     /**
      * 批量删除用户信息
@@ -99,7 +99,7 @@ public interface SysUserMapper {
      * @param userIds 需要删除的用户ID
      * @return 结果
      */
-    int deleteUserByIds(Long[] userIds);
+    Long deleteUserByIds(Long[] userIds);
 
     /**
      * 校验用户名称是否唯一

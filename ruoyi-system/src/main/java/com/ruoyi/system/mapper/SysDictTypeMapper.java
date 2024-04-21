@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.common.core.domain.entity.SysDictType;
+
+import java.util.List;
 
 /**
  * 字典表 数据层
@@ -62,7 +63,7 @@ public interface SysDictTypeMapper {
      * @param dictType 字典类型信息
      * @return 结果
      */
-    int insertDictType(SysDictType dictType);
+    Long insertDictType(SysDictType dictType);
 
     /**
      * 修改字典类型信息
@@ -70,7 +71,7 @@ public interface SysDictTypeMapper {
      * @param dictType 字典类型信息
      * @return 结果
      */
-    int updateDictType(SysDictType dictType);
+    Long updateDictType(SysDictType dictType);
 
     /**
      * 校验字典类型称是否唯一

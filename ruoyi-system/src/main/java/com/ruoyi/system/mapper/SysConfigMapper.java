@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysConfig;
+
+import java.util.List;
 
 /**
  * 参数配置 数据层
@@ -48,7 +48,7 @@ public interface SysConfigMapper {
      * @param config 参数配置信息
      * @return 结果
      */
-    int insertConfig(SysConfig config);
+    Long insertConfig(SysConfig config);
 
     /**
      * 修改参数配置
@@ -56,7 +56,7 @@ public interface SysConfigMapper {
      * @param config 参数配置信息
      * @return 结果
      */
-    int updateConfig(SysConfig config);
+    Long updateConfig(SysConfig config);
 
     /**
      * 删除参数配置

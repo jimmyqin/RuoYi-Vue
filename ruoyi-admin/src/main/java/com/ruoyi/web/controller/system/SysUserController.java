@@ -3,6 +3,8 @@ package com.ruoyi.web.controller.system;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.domain.TreeSelect;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -65,12 +67,12 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @PreAuthorize("@ss.hasPermi('system:user:import')")
     @PostMapping("importData")
-    public AjaxResult importData(MultipartFile file, @RequestParam("updateSupport") boolean updateSupport) throws Exception {
+    public R importData(MultipartFile file, @RequestParam("updateSupport") boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         List<SysUser> userList = util.importExcel(file.getInputStream());
         String operName = getUsername();
         String message = userService.importUser(userList, updateSupport, operName);
-        return success(message);
+        return R.ok2(message);
     }
 
     @PostMapping("importTemplate")
@@ -86,7 +88,7 @@ public class SysUserController extends BaseController {
     @GetMapping(value = {"/", "/{userId}"})
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         userService.checkUserDataScope(userId);
-        AjaxResult ajax = AjaxResult.successMap();
+        AjaxResult ajax = AjaxResult.success();
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         ajax.put("posts", postService.selectPostAll());
@@ -105,16 +107,16 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:add')")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysUser user) {
+    public R add(@Validated @RequestBody SysUser user) {
         if (!userService.checkUserNameUnique(user)) {
-            return error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+            return R.fail("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-            return error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return R.fail("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-            return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return R.fail("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return toAjax(userService.insertUser(user));
+        return R.result(userService.insertUser(user));
     }
 
     /**
@@ -123,17 +125,17 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysUser user) {
+    public R edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
         if (!userService.checkUserNameUnique(user)) {
-            return error("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
+            return R.fail("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-            return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return R.fail("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-            return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return R.fail("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        return toAjax(userService.updateUser(user));
+        return R.result(userService.updateUser(user));
     }
 
     /**
@@ -142,11 +144,11 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:remove')")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("{userIds}")
-    public AjaxResult remove(@PathVariable("userIds") Long[] userIds) {
+    public R remove(@PathVariable("userIds") Long[] userIds) {
         if (ArrayUtils.contains(userIds, getUserId())) {
-            return error("当前用户不能删除");
+            return R.fail("当前用户不能删除");
         }
-        return toAjax(userService.deleteUserByIds(userIds));
+        return R.result(userService.deleteUserByIds(userIds));
     }
 
     /**
@@ -155,11 +157,11 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:resetPwd')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
-    public AjaxResult resetPwd(@RequestBody SysUser user) {
+    public R resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return toAjax(userService.resetPwd(user));
+        return R.result(userService.resetPwd(user));
     }
 
     /**
@@ -168,10 +170,10 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
-    public AjaxResult changeStatus(@RequestBody SysUser user) {
+    public R changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        return toAjax(userService.updateUserStatus(user));
+        return R.result(userService.updateUserStatus(user));
     }
 
     /**
@@ -180,7 +182,7 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:query')")
     @GetMapping("authRole/{userId}")
     public AjaxResult authRole(@PathVariable("userId") Long userId) {
-        AjaxResult ajax = AjaxResult.successMap();
+        AjaxResult ajax = AjaxResult.success();
         SysUser user = userService.selectUserById(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         ajax.put("user", user);
@@ -194,10 +196,10 @@ public class SysUserController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
-    public AjaxResult insertAuthRole(@RequestParam("userId") Long userId,@RequestParam("roleIds") Long[] roleIds) {
+    public R insertAuthRole(@RequestParam("userId") Long userId,@RequestParam("roleIds") Long[] roleIds) {
         userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
-        return success();
+        return R.ok();
     }
 
     /**
@@ -205,7 +207,7 @@ public class SysUserController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("deptTree")
-    public AjaxResult deptTree(SysDept dept) {
-        return success(deptService.selectDeptTreeList(dept));
+    public R<List<TreeSelect>> deptTree(SysDept dept) {
+        return R.ok(deptService.selectDeptTreeList(dept));
     }
 }

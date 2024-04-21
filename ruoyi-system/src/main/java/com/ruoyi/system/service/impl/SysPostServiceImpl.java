@@ -1,10 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
@@ -12,6 +7,10 @@ import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
 import com.ruoyi.system.mapper.SysUserPostMapper;
 import com.ruoyi.system.service.ISysPostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 岗位信息 服务层处理
@@ -128,7 +127,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 结果
      */
     @Override
-    public int deletePostByIds(Long[] postIds) {
+    public Long deletePostByIds(Long[] postIds) {
         for (Long postId : postIds) {
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0) {
@@ -145,7 +144,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 结果
      */
     @Override
-    public int insertPost(SysPost post) {
+    public Long insertPost(SysPost post) {
         return postMapper.insertPost(post);
     }
 
@@ -156,7 +155,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 结果
      */
     @Override
-    public int updatePost(SysPost post) {
+    public Long updatePost(SysPost post) {
         return postMapper.updatePost(post);
     }
 }

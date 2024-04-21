@@ -1,8 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
 import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.core.domain.entity.SysDictType;
+
+import java.util.List;
 
 /**
  * 字典 业务层
@@ -77,7 +78,7 @@ import com.ruoyi.common.core.domain.entity.SysDictType;
      * @param dictType 字典类型信息
      * @return 结果
      */
-    int insertDictType(SysDictType dictType);
+    Long insertDictType(SysDictType dictType);
 
     /**
      * 修改保存字典类型信息
@@ -85,7 +86,7 @@ import com.ruoyi.common.core.domain.entity.SysDictType;
      * @param dictType 字典类型信息
      * @return 结果
      */
-    int updateDictType(SysDictType dictType);
+    Long updateDictType(SysDictType dictType);
 
     /**
      * 校验字典类型称是否唯一

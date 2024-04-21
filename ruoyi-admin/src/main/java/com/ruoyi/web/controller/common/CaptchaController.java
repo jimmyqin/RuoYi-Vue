@@ -42,7 +42,7 @@ public class CaptchaController {
      */
     @GetMapping("captchaImage")
     public AjaxResult getCode(HttpServletResponse response) {
-        AjaxResult ajax = AjaxResult.successMap();
+        AjaxResult ajax = AjaxResult.success();
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         ajax.put("captchaEnabled", captchaEnabled);
         if (!captchaEnabled) {

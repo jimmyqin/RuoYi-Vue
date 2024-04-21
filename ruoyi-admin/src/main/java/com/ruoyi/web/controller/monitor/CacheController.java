@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.monitor;
 
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysCache;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.*;
 @RestController
 @RequestMapping("monitor/cache")
 public class CacheController {
+
     private final RedisTemplate<String, String> redisTemplate;
 
     private final static List<SysCache> caches = new ArrayList<>();
@@ -60,45 +62,45 @@ public class CacheController {
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("getNames")
-    public AjaxResult cache() {
-        return AjaxResult.success(caches);
+    public R cache() {
+        return R.ok(caches);
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("getKeys/{cacheName}")
-    public AjaxResult getCacheKeys(@PathVariable("cacheName") String cacheName) {
+    public R<Set<String>> getCacheKeys(@PathVariable("cacheName") String cacheName) {
         Set<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-        return AjaxResult.success(cacheKeys);
+        return R.ok(cacheKeys);
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("getValue/{cacheName}/{cacheKey}")
-    public AjaxResult getCacheValue(@PathVariable("cacheName") String cacheName, @PathVariable("cacheKey") String cacheKey) {
+    public R<SysCache> getCacheValue(@PathVariable("cacheName") String cacheName, @PathVariable("cacheKey") String cacheKey) {
         String cacheValue = redisTemplate.opsForValue().get(cacheKey);
         SysCache sysCache = new SysCache(cacheName, cacheKey, cacheValue);
-        return AjaxResult.success(sysCache);
+        return R.ok(sysCache);
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("clearCacheName/{cacheName}")
-    public AjaxResult clearCacheName(@PathVariable("cacheName") String cacheName) {
+    public R clearCacheName(@PathVariable("cacheName") String cacheName) {
         Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
         redisTemplate.delete(cacheKeys);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("clearCacheKey/{cacheKey}")
-    public AjaxResult clearCacheKey(@PathVariable("cacheName") String cacheKey) {
+    public R clearCacheKey(@PathVariable("cacheName") String cacheKey) {
         redisTemplate.delete(cacheKey);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("clearCacheAll")
-    public AjaxResult clearCacheAll() {
+    public R clearCacheAll() {
         Collection<String> cacheKeys = redisTemplate.keys("*");
         redisTemplate.delete(cacheKeys);
-        return AjaxResult.success();
+        return R.ok();
     }
 }

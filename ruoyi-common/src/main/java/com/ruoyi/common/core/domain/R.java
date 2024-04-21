@@ -1,7 +1,8 @@
 package com.ruoyi.common.core.domain;
 
-import java.io.Serializable;
 import com.ruoyi.common.constant.HttpStatus;
+
+import java.io.Serializable;
 
 /**
  * 响应信息主体
@@ -10,11 +11,16 @@ import com.ruoyi.common.constant.HttpStatus;
  */
 public class R<T> implements Serializable {
 
-    /** 成功 */
+    /**
+     * 成功
+     */
     public static final int SUCCESS = HttpStatus.SUCCESS;
 
-    /** 失败 */
+    /**
+     * 失败
+     */
     public static final int FAIL = HttpStatus.ERROR;
+    public static final int WARN = HttpStatus.WARN;
 
     private int code;
 
@@ -22,43 +28,39 @@ public class R<T> implements Serializable {
 
     private T data;
 
-    public static <T> R<T> ok()
-    {
+    public static <T> R<T> ok() {
         return restResult(null, SUCCESS, "操作成功");
     }
 
-    public static <T> R<T> ok(T data)
-    {
+    public static <T> R<T> ok(T data) {
         return restResult(data, SUCCESS, "操作成功");
     }
 
-    public static <T> R<T> ok(T data, String msg)
-    {
+    public static <T> R<T> ok(T data, String msg) {
         return restResult(data, SUCCESS, msg);
     }
 
-    public static <T> R<T> fail()
-    {
+    public static <T> R<T> ok2(String msg) {
+        return restResult(null, SUCCESS, msg);
+    }
+
+    public static <T> R<T> fail() {
         return restResult(null, FAIL, "操作失败");
     }
 
-    public static <T> R<T> fail(String msg)
-    {
+    public static <T> R<T> fail(String msg) {
         return restResult(null, FAIL, msg);
     }
 
-    public static <T> R<T> fail(T data)
-    {
+    public static <T> R<T> fail(T data) {
         return restResult(data, FAIL, "操作失败");
     }
 
-    public static <T> R<T> fail(T data, String msg)
-    {
+    public static <T> R<T> fail(T data, String msg) {
         return restResult(data, FAIL, msg);
     }
 
-    public static <T> R<T> fail(int code, String msg)
-    {
+    public static <T> R<T> fail(int code, String msg) {
         return restResult(null, code, msg);
     }
 
@@ -70,43 +72,43 @@ public class R<T> implements Serializable {
         return apiResult;
     }
 
-    public int getCode()
-    {
+    public static <T> R<T> result(Long row) {
+        return row > 0 ? ok() : fail();
+    }
+
+    public static <T> R<T> warn(String msg) {
+        return restResult(null, WARN, msg);
+    }
+
+    public int getCode() {
         return code;
     }
 
-    public void setCode(int code)
-    {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public String getMsg()
-    {
+    public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg)
-    {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 
-    public T getData()
-    {
+    public T getData() {
         return data;
     }
 
-    public void setData(T data)
-    {
+    public void setData(T data) {
         this.data = data;
     }
 
-    public static <T> Boolean isError(R<T> ret)
-    {
+    public static <T> Boolean isError(R<T> ret) {
         return !isSuccess(ret);
     }
 
-    public static <T> Boolean isSuccess(R<T> ret)
-    {
+    public static <T> Boolean isSuccess(R<T> ret) {
         return R.SUCCESS == ret.getCode();
     }
 }

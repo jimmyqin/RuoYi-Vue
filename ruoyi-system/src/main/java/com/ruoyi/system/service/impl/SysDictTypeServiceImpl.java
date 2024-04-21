@@ -1,18 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import jakarta.annotation.PostConstruct;
-
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.core.domain.entity.SysDictType;
@@ -22,6 +9,17 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 字典 业务层处理
@@ -160,8 +158,8 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @return 结果
      */
     @Override
-    public int insertDictType(SysDictType dict) {
-        int row = dictTypeMapper.insertDictType(dict);
+    public Long insertDictType(SysDictType dict) {
+        Long row = dictTypeMapper.insertDictType(dict);
         if (row > 0) {
             DictUtils.setDictCache(dict.getDictType(), null);
         }
@@ -176,10 +174,10 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     @Transactional
-    public int updateDictType(SysDictType dict) {
+    public Long updateDictType(SysDictType dict) {
         SysDictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId());
         dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
-        int row = dictTypeMapper.updateDictType(dict);
+        Long row = dictTypeMapper.updateDictType(dict);
         if (row > 0) {
             List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
             DictUtils.setDictCache(dict.getDictType(), dictDatas);

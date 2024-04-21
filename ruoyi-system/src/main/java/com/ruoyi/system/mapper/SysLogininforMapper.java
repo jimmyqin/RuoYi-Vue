@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysLogininfor;
+
+import java.util.List;
 
 /**
  * 系统访问日志情况信息 数据层
@@ -31,12 +31,12 @@ public interface SysLogininforMapper {
      * @param infoIds 需要删除的登录日志ID
      * @return 结果
      */
-    int deleteLogininforByIds(Long[] infoIds);
+    Long deleteLogininforByIds(Long[] infoIds);
 
     /**
      * 清空系统登录日志
      *
      * @return 结果
      */
-    int cleanLogininfor();
+    Long cleanLogininfor();
 }

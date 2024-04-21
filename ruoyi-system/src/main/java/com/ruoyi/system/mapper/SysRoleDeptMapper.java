@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
 import com.ruoyi.system.domain.SysRoleDept;
+
+import java.util.List;
 
 /**
  * 角色与部门关联表 数据层
@@ -16,7 +16,7 @@ public interface SysRoleDeptMapper {
      * @param roleId 角色ID
      * @return 结果
      */
-    int deleteRoleDeptByRoleId(Long roleId);
+    Long deleteRoleDeptByRoleId(Long roleId);
 
     /**
      * 批量删除角色部门关联信息
@@ -24,7 +24,7 @@ public interface SysRoleDeptMapper {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    int deleteRoleDept(Long[] ids);
+    Long deleteRoleDept(Long[] ids);
 
     /**
      * 查询部门使用数量
@@ -32,7 +32,7 @@ public interface SysRoleDeptMapper {
      * @param deptId 部门ID
      * @return 结果
      */
-    int selectCountRoleDeptByDeptId(Long deptId);
+    Long selectCountRoleDeptByDeptId(Long deptId);
 
     /**
      * 批量新增角色部门信息
@@ -40,5 +40,5 @@ public interface SysRoleDeptMapper {
      * @param roleDeptList 角色部门列表
      * @return 结果
      */
-    int batchRoleDept(List<SysRoleDept> roleDeptList);
+    Long batchRoleDept(List<SysRoleDept> roleDeptList);
 }

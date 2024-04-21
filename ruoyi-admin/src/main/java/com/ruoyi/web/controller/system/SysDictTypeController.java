@@ -2,18 +2,17 @@ package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.domain.entity.SysDictType;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.service.ISysDictTypeService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
@@ -26,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("system/dict/type")
 public class SysDictTypeController extends BaseController {
+
     private final ISysDictTypeService dictTypeService;
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
@@ -50,8 +50,8 @@ public class SysDictTypeController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:dict:query')")
     @GetMapping(value = "/{dictId}")
-    public AjaxResult getInfo(@PathVariable("dictId") Long dictId) {
-        return success(dictTypeService.selectDictTypeById(dictId));
+    public R<SysDictType> getInfo(@PathVariable("dictId") Long dictId) {
+        return R.ok(dictTypeService.selectDictTypeById(dictId));
     }
 
     /**
@@ -60,12 +60,12 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:dict:add')")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDictType dict) {
+    public R add(@Validated @RequestBody SysDictType dict) {
         if (!dictTypeService.checkDictTypeUnique(dict)) {
-            return error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return R.fail("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setCreateBy(getUsername());
-        return toAjax(dictTypeService.insertDictType(dict));
+        return R.result(dictTypeService.insertDictType(dict));
     }
 
     /**
@@ -74,12 +74,12 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:dict:edit')")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDictType dict) {
+    public R edit(@Validated @RequestBody SysDictType dict) {
         if (!dictTypeService.checkDictTypeUnique(dict)) {
-            return error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return R.fail("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setUpdateBy(getUsername());
-        return toAjax(dictTypeService.updateDictType(dict));
+        return R.result(dictTypeService.updateDictType(dict));
     }
 
     /**
@@ -88,9 +88,9 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("{dictIds}")
-    public AjaxResult remove(@PathVariable("dictIds") Long[] dictIds) {
+    public R remove(@PathVariable("dictIds") Long[] dictIds) {
         dictTypeService.deleteDictTypeByIds(dictIds);
-        return success();
+        return R.ok();
     }
 
     /**
@@ -99,17 +99,17 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @Log(title = "字典类型", businessType = BusinessType.CLEAN)
     @DeleteMapping("refreshCache")
-    public AjaxResult refreshCache() {
+    public R refreshCache() {
         dictTypeService.resetDictCache();
-        return success();
+        return R.ok();
     }
 
     /**
      * 获取字典选择框列表
      */
     @GetMapping("optionselect")
-    public AjaxResult optionSelect() {
+    public R<List<SysDictType>> optionSelect() {
         List<SysDictType> dictTypes = dictTypeService.selectDictTypeAll();
-        return success(dictTypes);
+        return R.ok(dictTypes);
     }
 }

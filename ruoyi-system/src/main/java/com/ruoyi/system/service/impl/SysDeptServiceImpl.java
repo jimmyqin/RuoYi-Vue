@@ -1,13 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.TreeSelect;
@@ -22,6 +14,13 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.service.ISysDeptService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -192,7 +191,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 结果
      */
     @Override
-    public int insertDept(SysDept dept) {
+    public Long insertDept(SysDept dept) {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
         // 如果父节点不为正常状态,则不允许新增子节点
         if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
@@ -209,7 +208,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 结果
      */
     @Override
-    public int updateDept(SysDept dept) {
+    public Long updateDept(SysDept dept) {
         SysDept newParentDept = deptMapper.selectDeptById(dept.getParentId());
         SysDept oldDept = deptMapper.selectDeptById(dept.getDeptId());
         if (StringUtils.isNotNull(newParentDept) && StringUtils.isNotNull(oldDept)) {
@@ -218,7 +217,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             dept.setAncestors(newAncestors);
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
-        int result = deptMapper.updateDept(dept);
+        Long result = deptMapper.updateDept(dept);
         if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
                 && !StringUtils.equals("0", dept.getAncestors())) {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
@@ -262,7 +261,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 结果
      */
     @Override
-    public int deleteDeptById(Long deptId) {
+    public Long deleteDeptById(Long deptId) {
         return deptMapper.deleteDeptById(deptId);
     }
 

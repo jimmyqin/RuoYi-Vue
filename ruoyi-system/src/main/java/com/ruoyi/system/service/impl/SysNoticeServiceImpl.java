@@ -1,13 +1,12 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.system.domain.SysNotice;
 import com.ruoyi.system.mapper.SysNoticeMapper;
 import com.ruoyi.system.service.ISysNoticeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 公告 服务层实现
@@ -49,7 +48,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      * @return 结果
      */
     @Override
-    public int insertNotice(SysNotice notice) {
+    public Long insertNotice(SysNotice notice) {
         return noticeMapper.insertNotice(notice);
     }
 
@@ -60,7 +59,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      * @return 结果
      */
     @Override
-    public int updateNotice(SysNotice notice) {
+    public Long updateNotice(SysNotice notice) {
         return noticeMapper.updateNotice(notice);
     }
 
@@ -71,7 +70,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      * @return 结果
      */
     @Override
-    public int deleteNoticeById(Long noticeId) {
+    public Long deleteNoticeById(Long noticeId) {
         return noticeMapper.deleteNoticeById(noticeId);
     }
 
@@ -82,7 +81,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      * @return 结果
      */
     @Override
-    public int deleteNoticeByIds(Long[] noticeIds) {
+    public Long deleteNoticeByIds(Long[] noticeIds) {
         return noticeMapper.deleteNoticeByIds(noticeIds);
     }
 }

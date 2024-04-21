@@ -1,7 +1,8 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
 import com.ruoyi.common.core.domain.entity.SysUser;
+
+import java.util.List;
 
 /**
  * 用户 业务层
@@ -110,7 +111,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    int insertUser(SysUser user);
+    Long insertUser(SysUser user);
 
     /**
      * 注册用户信息
@@ -126,7 +127,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    int updateUser(SysUser user);
+    Long updateUser(SysUser user);
 
     /**
      * 用户授权角色
@@ -142,7 +143,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    int updateUserStatus(SysUser user);
+    Long updateUserStatus(SysUser user);
 
     /**
      * 修改用户基本信息
@@ -150,7 +151,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    int updateUserProfile(SysUser user);
+    Long updateUserProfile(SysUser user);
 
     /**
      * 修改用户头像
@@ -167,7 +168,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    int resetPwd(SysUser user);
+    Long resetPwd(SysUser user);
 
     /**
      * 重置用户密码
@@ -176,7 +177,7 @@ public interface ISysUserService
      * @param password 密码
      * @return 结果
      */
-    int resetUserPwd(String userName, String password);
+    Long resetUserPwd(String userName, String password);
 
     /**
      * 通过用户ID删除用户
@@ -184,7 +185,7 @@ public interface ISysUserService
      * @param userId 用户ID
      * @return 结果
      */
-    int deleteUserById(Long userId);
+    Long deleteUserById(Long userId);
 
     /**
      * 批量删除用户信息
@@ -192,7 +193,7 @@ public interface ISysUserService
      * @param userIds 需要删除的用户ID
      * @return 结果
      */
-    int deleteUserByIds(Long[] userIds);
+    Long deleteUserByIds(Long[] userIds);
 
     /**
      * 导入用户数据
