@@ -5,9 +5,7 @@ package com.ruoyi.common.exception.user;
  * 
  * @author ruoyi
  */
-public class CaptchaExpireException extends UserException
-{
-    private static final long serialVersionUID = 1L;
+public class CaptchaExpireException extends UserException {
 
     public CaptchaExpireException()
     {

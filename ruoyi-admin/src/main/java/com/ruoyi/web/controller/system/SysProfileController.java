@@ -26,14 +26,13 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 个人信息 业务处理
- * 
+ *
  * @author ruoyi
  */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("system/user/profile")
-public class SysProfileController extends BaseController
-{
+public class SysProfileController extends BaseController {
     private final ISysUserService userService;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;

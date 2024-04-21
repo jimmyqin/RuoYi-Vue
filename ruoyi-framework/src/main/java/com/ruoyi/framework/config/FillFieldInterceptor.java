@@ -47,7 +47,7 @@ public class FillFieldInterceptor implements Interceptor {
                 doModify(UpdateBy.class, field, arg, SecurityUtils::getUsername, modify);
             }
 
-        } else if(mappedStatement.getSqlCommandType() == SqlCommandType.INSERT) {
+        } else if (mappedStatement.getSqlCommandType() == SqlCommandType.INSERT) {
             for (Field field : allFields) {
                 if (modify[0] >= 4) {
                     break;

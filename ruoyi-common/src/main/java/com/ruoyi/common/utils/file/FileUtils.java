@@ -24,8 +24,7 @@ import org.apache.commons.io.FilenameUtils;
  * 
  * @author ruoyi
  */
-public class FileUtils
-{
+public class FileUtils {
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
 
     /**
@@ -35,30 +34,20 @@ public class FileUtils
      * @param os 输出流
      * @return
      */
-    public static void writeBytes(String filePath, OutputStream os) throws IOException
-    {
+    public static void writeBytes(String filePath, OutputStream os) throws IOException {
         FileInputStream fis = null;
-        try
-        {
+        try {
             File file = new File(filePath);
-            if (!file.exists())
-            {
+            if (!file.exists()) {
                 throw new FileNotFoundException(filePath);
             }
             fis = new FileInputStream(file);
             byte[] b = new byte[1024];
             int length;
-            while ((length = fis.read(b)) > 0)
-            {
+            while ((length = fis.read(b)) > 0) {
                 os.write(b, 0, length);
             }
-        }
-        catch (IOException e)
-        {
-            throw e;
-        }
-        finally
-        {
+        } finally {
             IOUtils.close(os);
             IOUtils.close(fis);
         }
@@ -71,8 +60,7 @@ public class FileUtils
      * @return 目标文件
      * @throws IOException IO异常
      */
-    public static String writeImportBytes(byte[] data) throws IOException
-    {
+    public static String writeImportBytes(byte[] data) throws IOException {
         return writeBytes(data, RuoYiConfig.getImportPath());
     }
 
@@ -84,20 +72,16 @@ public class FileUtils
      * @return 目标文件
      * @throws IOException IO异常
      */
-    public static String writeBytes(byte[] data, String uploadDir) throws IOException
-    {
+    public static String writeBytes(byte[] data, String uploadDir) throws IOException {
         FileOutputStream fos = null;
         String pathName = "";
-        try
-        {
+        try {
             String extension = getFileExtendName(data);
             pathName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
             File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
             fos = new FileOutputStream(file);
             fos.write(data);
-        }
-        finally
-        {
+        } finally {
             IOUtils.close(fos);
         }
         return FileUploadUtils.getPathFileName(uploadDir, pathName);
@@ -109,13 +93,11 @@ public class FileUtils
      * @param filePath 文件
      * @return
      */
-    public static boolean deleteFile(String filePath)
-    {
+    public static boolean deleteFile(String filePath) {
         boolean flag = false;
         File file = new File(filePath);
         // 路径为文件且不为空则进行删除
-        if (file.isFile() && file.exists())
-        {
+        if (file.isFile() && file.exists()) {
             flag = file.delete();
         }
         return flag;
@@ -138,22 +120,14 @@ public class FileUtils
      * @param resource 需要下载的文件
      * @return true 正常 false 非法
      */
-    public static boolean checkAllowDownload(String resource)
-    {
+    public static boolean checkAllowDownload(String resource) {
         // 禁止目录上跳级别
-        if (StringUtils.contains(resource, ".."))
-        {
+        if (StringUtils.contains(resource, "..")) {
             return false;
         }
 
-        // 检查允许下载的文件规则
-        if (ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource)))
-        {
-            return true;
-        }
-
-        // 不在允许下载的文件规则
-        return false;
+        // 检查下载的文件规则
+        return ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource));
     }
 
     /**
@@ -163,32 +137,21 @@ public class FileUtils
      * @param fileName 文件名
      * @return 编码后的文件名
      */
-    public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
-    {
+    public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException {
         final String agent = request.getHeader("USER-AGENT");
         String filename = fileName;
-        if (agent.contains("MSIE"))
-        {
+        if (agent.contains("MSIE")) {
             // IE浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-            filename = filename.replace("+", " ");
+            filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+            return filename.replace("+", " ");
         }
-        else if (agent.contains("Firefox"))
-        {
+        if (agent.contains("Firefox")) {
             // 火狐浏览器
-            filename = new String(fileName.getBytes(), "ISO8859-1");
+            return new String(fileName.getBytes(), "ISO8859-1");
         }
-        else if (agent.contains("Chrome"))
-        {
-            // google浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-        }
-        else
-        {
-            // 其它浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-        }
-        return filename;
+
+        // 其它浏览器
+        return URLEncoder.encode(filename, StandardCharsets.UTF_8);
     }
 
     /**
@@ -197,8 +160,7 @@ public class FileUtils
      * @param response 响应对象
      * @param realFileName 真实文件名
      */
-    public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException
-    {
+    public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException {
         String percentEncodedFileName = percentEncode(realFileName);
 
         StringBuilder contentDispositionValue = new StringBuilder();
@@ -220,9 +182,8 @@ public class FileUtils
      * @param s 需要百分号编码的字符串
      * @return 百分号编码后的字符串
      */
-    public static String percentEncode(String s) throws UnsupportedEncodingException
-    {
-        String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+    public static String percentEncode(String s) throws UnsupportedEncodingException {
+        String encode = URLEncoder.encode(s, StandardCharsets.UTF_8);
         return encode.replaceAll("\\+", "%20");
     }
 
@@ -232,27 +193,21 @@ public class FileUtils
      * @param photoByte 图像数据
      * @return 后缀名
      */
-    public static String getFileExtendName(byte[] photoByte)
-    {
-        String strFileExtendName = "jpg";
+    public static String getFileExtendName(byte[] photoByte) {
         if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
-                && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97))
-        {
-            strFileExtendName = "gif";
+                && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97)) {
+            return  "gif";
         }
-        else if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70))
-        {
-            strFileExtendName = "jpg";
+        if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70)) {
+            return  "jpg";
         }
-        else if ((photoByte[0] == 66) && (photoByte[1] == 77))
-        {
-            strFileExtendName = "bmp";
+        if ((photoByte[0] == 66) && (photoByte[1] == 77)) {
+            return  "bmp";
         }
-        else if ((photoByte[1] == 80) && (photoByte[2] == 78) && (photoByte[3] == 71))
-        {
-            strFileExtendName = "png";
+        if ((photoByte[1] == 80) && (photoByte[2] == 78) && (photoByte[3] == 71)) {
+            return  "png";
         }
-        return strFileExtendName;
+        return "jpg";
     }
 
     /**
@@ -261,10 +216,8 @@ public class FileUtils
      * @param fileName 路径名称
      * @return 没有文件路径的名称
      */
-    public static String getName(String fileName)
-    {
-        if (fileName == null)
-        {
+    public static String getName(String fileName) {
+        if (fileName == null) {
             return null;
         }
         int lastUnixPos = fileName.lastIndexOf('/');
@@ -279,13 +232,10 @@ public class FileUtils
      * @param fileName 路径名称
      * @return 没有文件路径和后缀的名称
      */
-    public static String getNameNotSuffix(String fileName)
-    {
-        if (fileName == null)
-        {
+    public static String getNameNotSuffix(String fileName) {
+        if (fileName == null) {
             return null;
         }
-        String baseName = FilenameUtils.getBaseName(fileName);
-        return baseName;
+        return FilenameUtils.getBaseName(fileName);
     }
 }

@@ -18,5 +18,4 @@ import java.lang.annotation.RetentionPolicy;
         @Mapping(target = "updateTime",ignore = true),
         @Mapping(target = "updateBy",ignore = true),
 })
-public @interface MappingIgnoreCreate {
-}
+public @interface MappingIgnoreCreate { }

@@ -12,9 +12,7 @@ import com.ruoyi.common.core.domain.entity.SysMenu;
  * 
  * @author ruoyi
  */
-public class TreeSelect implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+public class TreeSelect implements Serializable {
 
     /** 节点ID */
     private Long id;
@@ -26,20 +24,15 @@ public class TreeSelect implements Serializable
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TreeSelect> children;
 
-    public TreeSelect()
-    {
+    public TreeSelect() {}
 
-    }
-
-    public TreeSelect(SysDept dept)
-    {
+    public TreeSelect(SysDept dept) {
         this.id = dept.getDeptId();
         this.label = dept.getDeptName();
         this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
-    public TreeSelect(SysMenu menu)
-    {
+    public TreeSelect(SysMenu menu) {
         this.id = menu.getMenuId();
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());

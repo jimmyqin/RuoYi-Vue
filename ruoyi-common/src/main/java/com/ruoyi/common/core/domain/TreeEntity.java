@@ -8,9 +8,7 @@ import java.util.List;
  * 
  * @author ruoyi
  */
-public class TreeEntity extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class TreeEntity extends BaseEntity {
 
     /** 父菜单名称 */
     private String parentName;

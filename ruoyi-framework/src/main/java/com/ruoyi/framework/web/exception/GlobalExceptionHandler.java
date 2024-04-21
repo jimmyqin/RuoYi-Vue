@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * 全局异常处理器
- * 
+ *
  * @author ruoyi
  */
 @Slf4j

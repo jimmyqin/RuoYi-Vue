@@ -12,12 +12,9 @@ import jakarta.validation.Validator;
  */
 public class BeanValidators
 {
-    public static void validateWithException(Validator validator, Object object, Class<?>... groups)
-            throws ConstraintViolationException
-    {
+    public static void validateWithException(Validator validator, Object object, Class<?>... groups) throws ConstraintViolationException {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
-        if (!constraintViolations.isEmpty())
-        {
+        if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
         }
     }

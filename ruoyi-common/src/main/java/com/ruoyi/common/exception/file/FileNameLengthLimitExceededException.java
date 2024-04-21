@@ -5,9 +5,7 @@ package com.ruoyi.common.exception.file;
  * 
  * @author ruoyi
  */
-public class FileNameLengthLimitExceededException extends FileException
-{
-    private static final long serialVersionUID = 1L;
+public class FileNameLengthLimitExceededException extends FileException {
 
     public FileNameLengthLimitExceededException(int defaultFileNameLength)
     {

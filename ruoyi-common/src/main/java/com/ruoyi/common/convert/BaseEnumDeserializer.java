@@ -18,8 +18,7 @@ public class BaseEnumDeserializer extends JsonDeserializer<BaseEnum> implements 
     // 记录枚举字段的类，用于获取其定义的所有枚举值
     private Class<? extends BaseEnum> propertyClass;
 
-    public BaseEnumDeserializer() {
-    }
+    public BaseEnumDeserializer() {}
 
     public BaseEnumDeserializer(Class<? extends BaseEnum> propertyClass) {
         this.propertyClass = propertyClass;
@@ -27,8 +26,8 @@ public class BaseEnumDeserializer extends JsonDeserializer<BaseEnum> implements 
 
     @Override
     public BaseEnum deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-        String key = p.getValueAsString();
-        return BaseEnum.keyToEnum(propertyClass, key);
+        Integer code = p.getValueAsInt();
+        return BaseEnum.codeToEnum(propertyClass, code);
     }
 
     @Override

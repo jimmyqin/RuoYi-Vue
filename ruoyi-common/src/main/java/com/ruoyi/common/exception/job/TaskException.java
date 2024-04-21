@@ -5,19 +5,16 @@ package com.ruoyi.common.exception.job;
  * 
  * @author ruoyi
  */
-public class TaskException extends Exception
-{
-    private static final long serialVersionUID = 1L;
+public class TaskException extends Exception {
 
-    private Code code;
+    private final Code code;
 
     public TaskException(String msg, Code code)
     {
         this(msg, code, null);
     }
 
-    public TaskException(String msg, Code code, Exception nestedEx)
-    {
+    public TaskException(String msg, Code code, Exception nestedEx) {
         super(msg, nestedEx);
         this.code = code;
     }
@@ -27,8 +24,7 @@ public class TaskException extends Exception
         return code;
     }
 
-    public enum Code
-    {
+    public enum Code {
         TASK_EXISTS, NO_TASK_EXISTS, TASK_ALREADY_STARTED, UNKNOWN, CONFIG_ERROR, TASK_NODE_NOT_AVAILABLE
     }
 }

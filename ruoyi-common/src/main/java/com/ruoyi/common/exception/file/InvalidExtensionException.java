@@ -7,16 +7,13 @@ import java.util.Arrays;
  * 
  * @author ruoyi
  */
-public class InvalidExtensionException extends FileUploadException
-{
-    private static final long serialVersionUID = 1L;
+public class InvalidExtensionException extends FileUploadException {
 
-    private String[] allowedExtension;
-    private String extension;
-    private String filename;
+    private final String[] allowedExtension;
+    private final String extension;
+    private final String filename;
 
-    public InvalidExtensionException(String[] allowedExtension, String extension, String filename)
-    {
+    public InvalidExtensionException(String[] allowedExtension, String extension, String filename) {
         super("文件[" + filename + "]后缀[" + extension + "]不正确，请上传" + Arrays.toString(allowedExtension) + "格式");
         this.allowedExtension = allowedExtension;
         this.extension = extension;
@@ -38,9 +35,7 @@ public class InvalidExtensionException extends FileUploadException
         return filename;
     }
 
-    public static class InvalidImageExtensionException extends InvalidExtensionException
-    {
-        private static final long serialVersionUID = 1L;
+    public static class InvalidImageExtensionException extends InvalidExtensionException {
 
         public InvalidImageExtensionException(String[] allowedExtension, String extension, String filename)
         {
@@ -48,32 +43,22 @@ public class InvalidExtensionException extends FileUploadException
         }
     }
 
-    public static class InvalidFlashExtensionException extends InvalidExtensionException
-    {
-        private static final long serialVersionUID = 1L;
+    public static class InvalidFlashExtensionException extends InvalidExtensionException {
 
-        public InvalidFlashExtensionException(String[] allowedExtension, String extension, String filename)
-        {
+        public InvalidFlashExtensionException(String[] allowedExtension, String extension, String filename) {
             super(allowedExtension, extension, filename);
         }
     }
 
-    public static class InvalidMediaExtensionException extends InvalidExtensionException
-    {
-        private static final long serialVersionUID = 1L;
+    public static class InvalidMediaExtensionException extends InvalidExtensionException {
 
-        public InvalidMediaExtensionException(String[] allowedExtension, String extension, String filename)
-        {
+        public InvalidMediaExtensionException(String[] allowedExtension, String extension, String filename) {
             super(allowedExtension, extension, filename);
         }
     }
 
-    public static class InvalidVideoExtensionException extends InvalidExtensionException
-    {
-        private static final long serialVersionUID = 1L;
-
-        public InvalidVideoExtensionException(String[] allowedExtension, String extension, String filename)
-        {
+    public static class InvalidVideoExtensionException extends InvalidExtensionException {
+        public InvalidVideoExtensionException(String[] allowedExtension, String extension, String filename) {
             super(allowedExtension, extension, filename);
         }
     }

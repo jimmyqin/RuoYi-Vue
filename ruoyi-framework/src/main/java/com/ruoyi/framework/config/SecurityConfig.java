@@ -26,7 +26,7 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * spring security配置
- * 
+ *
  * @author ruoyi
  */
 @Configuration
@@ -47,7 +47,7 @@ public class SecurityConfig {
      * token认证过滤器
      */
     private final JwtAuthenticationTokenFilter authenticationTokenFilter;
-    
+
     /**
      * 跨域过滤器
      */
@@ -60,6 +60,7 @@ public class SecurityConfig {
 
     /**
      * 匿名路径不支持中间加/xxx/**\xxxx的配置, 启用ant_path_matcher是支持的,新版本不支持,已弃用ant_path_matcher
+     *
      * @param http
      * @return
      * @throws Exception
@@ -69,7 +70,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/register", "/captchaImage").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**","/swagger-resources/**","/webjars/**", "/doc.html","/webjars/**","/swagger-ui.html/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/webjars/**", "/swagger-ui.html/**").permitAll()
                         .requestMatchers(permitAllUrl.getUrlsArray()).permitAll()
                         .anyRequest().authenticated()
                 )

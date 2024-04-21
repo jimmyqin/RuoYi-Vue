@@ -12,10 +12,11 @@ public class ExcelUtils {
 
     /**
      * 同步读取数据一次性完,数据量大请勿使用
+     *
      * @param file
      * @param head
-     * @return
      * @param <T>
+     * @return
      * @throws IOException
      */
     public static <T> List<T> read(MultipartFile file, Class<T> head) throws IOException {
@@ -26,6 +27,7 @@ public class ExcelUtils {
 
     /**
      * 一次性写到一个sheet中,数据量很大慎用
+     *
      * @param data
      * @param clazz
      * @param excelName

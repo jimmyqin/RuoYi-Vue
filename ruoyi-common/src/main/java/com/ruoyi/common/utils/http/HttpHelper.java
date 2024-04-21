@@ -15,12 +15,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ruoyi
  */
-public class HttpHelper
-{
+public class HttpHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpHelper.class);
 
-    public static String getBodyString(ServletRequest request)
-    {
+    public static String getBodyString(ServletRequest request) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try (InputStream inputStream = request.getInputStream())
@@ -31,21 +29,13 @@ public class HttpHelper
             {
                 sb.append(line);
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.warn("getBodyString出现问题！");
-        }
-        finally
-        {
-            if (reader != null)
-            {
-                try
-                {
+        } finally {
+            if (reader != null) {
+                try {
                     reader.close();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     LOGGER.error(ExceptionUtils.getMessage(e));
                 }
             }

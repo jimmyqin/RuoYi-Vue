@@ -18,9 +18,7 @@ import com.ruoyi.common.xss.Xss;
  * 
  * @author ruoyi
  */
-public class SysUser extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class SysUser extends BaseEntity {
 
     /** 用户ID */
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")

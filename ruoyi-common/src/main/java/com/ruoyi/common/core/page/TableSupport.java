@@ -8,8 +8,7 @@ import com.ruoyi.common.utils.ServletUtils;
  * 
  * @author ruoyi
  */
-public class TableSupport
-{
+public class TableSupport {
     /**
      * 当前记录起始索引
      */
@@ -38,8 +37,7 @@ public class TableSupport
     /**
      * 封装分页对象
      */
-    public static PageDomain getPageDomain()
-    {
+    public static PageDomain getPageDomain() {
         PageDomain pageDomain = new PageDomain();
         pageDomain.setPageNum(Convert.toInt(ServletUtils.getParameter(PAGE_NUM), 1));
         pageDomain.setPageSize(Convert.toInt(ServletUtils.getParameter(PAGE_SIZE), 10));

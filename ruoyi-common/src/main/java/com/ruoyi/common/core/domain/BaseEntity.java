@@ -108,10 +108,8 @@ public class BaseEntity  {
         this.remark = remark;
     }
 
-    public Map<String, Object> getParams()
-    {
-        if (params == null)
-        {
+    public Map<String, Object> getParams() {
+        if (params == null) {
             params = new HashMap<>();
         }
         return params;

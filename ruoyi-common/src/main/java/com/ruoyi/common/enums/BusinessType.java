@@ -1,59 +1,30 @@
 package com.ruoyi.common.enums;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 业务操作类型
  * 
  * @author ruoyi
  */
-public enum BusinessType
-{
-    /**
-     * 其它
-     */
-    OTHER,
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+public enum BusinessType implements BaseEnum{
 
-    /**
-     * 新增
-     */
-    INSERT,
+    OTHER(1,"其他"),
+    INSERT(2, "新增"),
+    UPDATE(3, "修改"),
+    DELETE(4, "删除"),
+    GRANT(5, "授权"),
+    EXPORT(6, "导出"),
+    IMPORT(7, "导入"),
+    FORCE(8,"强退"),
+    GENCODE(9, "生成代码"),
+    CLEAN(10, "清空数据");
 
-    /**
-     * 修改
-     */
-    UPDATE,
 
-    /**
-     * 删除
-     */
-    DELETE,
-
-    /**
-     * 授权
-     */
-    GRANT,
-
-    /**
-     * 导出
-     */
-    EXPORT,
-
-    /**
-     * 导入
-     */
-    IMPORT,
-
-    /**
-     * 强退
-     */
-    FORCE,
-
-    /**
-     * 生成代码
-     */
-    GENCODE,
-    
-    /**
-     * 清空数据
-     */
-    CLEAN,
+    private final Integer code;
+    private final String info;
 }

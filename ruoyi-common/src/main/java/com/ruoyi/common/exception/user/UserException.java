@@ -7,9 +7,7 @@ import com.ruoyi.common.exception.base.BaseException;
  * 
  * @author ruoyi
  */
-public class UserException extends BaseException
-{
-    private static final long serialVersionUID = 1L;
+public class UserException extends BaseException {
 
     public UserException(String code, Object[] args)
     {

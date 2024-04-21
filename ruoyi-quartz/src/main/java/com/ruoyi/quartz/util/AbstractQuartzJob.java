@@ -49,7 +49,7 @@ public abstract class AbstractQuartzJob implements Job {
      * 执行前
      *
      * @param context 工作执行上下文对象
-     * @param sysJob 系统计划任务
+     * @param sysJob  系统计划任务
      */
     protected void before(JobExecutionContext context, SysJob sysJob) {
         threadLocal.set(LocalDateTime.now());
@@ -59,7 +59,7 @@ public abstract class AbstractQuartzJob implements Job {
      * 执行后
      *
      * @param context 工作执行上下文对象
-     * @param sysJob 系统计划任务
+     * @param sysJob  系统计划任务
      */
     protected void after(JobExecutionContext context, SysJob sysJob, Exception e) {
         LocalDateTime startTime = threadLocal.get();
@@ -75,7 +75,7 @@ public abstract class AbstractQuartzJob implements Job {
         long start = sysJobLog.getStartTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         long runMs = end - start;
         sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
-        if (e != null){
+        if (e != null) {
             sysJobLog.setStatus(Constants.FAIL);
             String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
             sysJobLog.setExceptionInfo(errorMsg);
@@ -91,7 +91,7 @@ public abstract class AbstractQuartzJob implements Job {
      * 执行方法，由子类重载
      *
      * @param context 工作执行上下文对象
-     * @param sysJob 系统计划任务
+     * @param sysJob  系统计划任务
      * @throws Exception 执行过程中的异常
      */
     protected abstract void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception;

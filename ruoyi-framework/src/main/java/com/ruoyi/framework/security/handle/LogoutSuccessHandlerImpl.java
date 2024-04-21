@@ -20,17 +20,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 自定义退出处理类 返回成功
- * 
+ *
  * @author ruoyi
  */
 @RequiredArgsConstructor
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
+
     private final TokenService tokenService;
 
     /**
      * 退出处理
-     * 
+     *
      * @return
      */
     @Override

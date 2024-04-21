@@ -8,8 +8,7 @@ import com.ruoyi.common.utils.DesensitizedUtil;
  *
  * @author ruoyi
  */
-public enum DesensitizedType
-{
+public enum DesensitizedType {
     /**
      * 姓名，第2位星号替换
      */

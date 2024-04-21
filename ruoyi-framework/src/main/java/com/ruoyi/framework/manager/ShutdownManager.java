@@ -11,13 +11,11 @@ import jakarta.annotation.PreDestroy;
  * @author ruoyi
  */
 @Component
-public class ShutdownManager
-{
+public class ShutdownManager {
     private static final Logger logger = LoggerFactory.getLogger("sys-user");
 
     @PreDestroy
-    public void destroy()
-    {
+    public void destroy() {
         shutdownAsyncManager();
     }
 

@@ -18,5 +18,4 @@ import java.util.Optional;
  * @description
  */
 @MapperConfig(uses = {BaseEnum.class, CommonConvert.class}, imports = {JsonUtils.class, Optional.class, Date.class, Joiner.class, StringUtils.class, BooleanUtils.class, CollectionUtils.class, DictUtils.class})
-public interface CommonMapperConfig {
-}
+public interface CommonMapperConfig { }

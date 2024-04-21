@@ -19,13 +19,11 @@ import com.ruoyi.common.utils.ServletUtils;
  * @author ruoyi
  */
 @Component
-public abstract class RepeatSubmitInterceptor implements HandlerInterceptor
-{
+public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
+        if (handler instanceof HandlerMethod handlerMethod) {
             Method method = handlerMethod.getMethod();
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
             if (annotation != null) {
@@ -42,7 +40,7 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor
     /**
      * 验证是否重复提交由子类实现具体的防重复提交的规则
      *
-     * @param request 请求信息
+     * @param request    请求信息
      * @param annotation 防重复注解参数
      * @return 结果
      * @throws Exception

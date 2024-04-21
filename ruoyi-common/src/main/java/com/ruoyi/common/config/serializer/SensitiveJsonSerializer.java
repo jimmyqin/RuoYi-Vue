@@ -18,8 +18,7 @@ import com.ruoyi.common.utils.SecurityUtils;
  *
  * @author ruoyi
  */
-public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer
-{
+public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer {
     private DesensitizedType desensitizedType;
 
     @Override

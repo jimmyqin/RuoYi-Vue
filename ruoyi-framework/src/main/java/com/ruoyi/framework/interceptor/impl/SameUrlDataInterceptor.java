@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ruoyi.common.utils.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,21 +21,20 @@ import com.ruoyi.framework.interceptor.RepeatSubmitInterceptor;
 /**
  * 判断请求url和数据是否和上一次相同，
  * 如果和上次相同，则是重复提交表单。 有效时间为10秒内。
- * 
+ *
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @Component
 public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final static String REPEAT_PARAMS = "repeatParams";
-
     public final static String REPEAT_TIME = "repeatTime";
 
     // 令牌自定义标识
     @Value("${token.header}")
     private String header;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     @SuppressWarnings("unchecked")
     @Override

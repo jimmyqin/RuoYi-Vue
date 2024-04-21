@@ -14,9 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 
  * @author ruoyi
  */
-public class SysDictType extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class SysDictType extends BaseEntity {
 
     /** 字典主键 */
     @Excel(name = "字典主键", cellType = ColumnType.NUMERIC)

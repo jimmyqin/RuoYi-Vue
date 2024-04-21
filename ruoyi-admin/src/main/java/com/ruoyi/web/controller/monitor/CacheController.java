@@ -14,17 +14,18 @@ import java.util.*;
 
 /**
  * 缓存监控
- * 
+ *
  * @author ruoyi
  */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("monitor/cache")
-public class CacheController
-{
+public class CacheController {
     private final RedisTemplate<String, String> redisTemplate;
 
-    private final static List<SysCache> caches = new ArrayList<>();{
+    private final static List<SysCache> caches = new ArrayList<>();
+
+    {
         caches.add(new SysCache(CacheConstants.LOGIN_TOKEN_KEY, "用户信息"));
         caches.add(new SysCache(CacheConstants.SYS_CONFIG_KEY, "配置信息"));
         caches.add(new SysCache(CacheConstants.SYS_DICT_KEY, "数据字典"));
@@ -59,8 +60,7 @@ public class CacheController
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("getNames")
-    public AjaxResult cache()
-    {
+    public AjaxResult cache() {
         return AjaxResult.success(caches);
     }
 

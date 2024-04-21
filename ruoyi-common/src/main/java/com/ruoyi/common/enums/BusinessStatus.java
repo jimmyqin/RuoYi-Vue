@@ -1,20 +1,22 @@
 package com.ruoyi.common.enums;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 操作状态
  * 
  * @author ruoyi
  *
  */
-public enum BusinessStatus
-{
-    /**
-     * 成功
-     */
-    SUCCESS,
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+public enum BusinessStatus  implements BaseEnum{
 
-    /**
-     * 失败
-     */
-    FAIL,
+    SUCCESS(1,"成功"),
+    FAIL(2,"失败");
+
+    private final Integer code;
+    private final String info;
 }

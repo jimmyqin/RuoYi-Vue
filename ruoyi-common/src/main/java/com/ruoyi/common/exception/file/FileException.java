@@ -7,9 +7,7 @@ import com.ruoyi.common.exception.base.BaseException;
  * 
  * @author ruoyi
  */
-public class FileException extends BaseException
-{
-    private static final long serialVersionUID = 1L;
+public class FileException extends BaseException {
 
     public FileException(String code, Object[] args)
     {

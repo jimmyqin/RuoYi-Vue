@@ -11,7 +11,6 @@ import com.ruoyi.common.utils.StringUtils;
  * @author ruoyi
  */
 public class AjaxResult extends HashMap<String, Object> {
-    private static final long serialVersionUID = 1L;
 
     /** 状态码 */
     public static final String CODE_TAG = "code";
@@ -25,9 +24,7 @@ public class AjaxResult extends HashMap<String, Object> {
     /**
      * 初始化一个新创建的 AjaxResult 对象，使其表示一个空消息。
      */
-    public AjaxResult()
-    {
-    }
+    public AjaxResult() {}
 
     /**
      * 初始化一个新创建的 AjaxResult 对象
@@ -35,8 +32,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param code 状态码
      * @param msg 返回内容
      */
-    public AjaxResult(int code, String msg)
-    {
+    public AjaxResult(int code, String msg) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
     }
@@ -48,12 +44,10 @@ public class AjaxResult extends HashMap<String, Object> {
      * @param msg 返回内容
      * @param data 数据对象
      */
-    public AjaxResult(int code, String msg, Object data)
-    {
+    public AjaxResult(int code, String msg, Object data) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        if (StringUtils.isNotNull(data))
-        {
+        if (StringUtils.isNotNull(data)) {
             super.put(DATA_TAG, data);
         }
     }
@@ -207,8 +201,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @return 数据对象
      */
     @Override
-    public AjaxResult put(String key, Object value)
-    {
+    public AjaxResult put(String key, Object value) {
         super.put(key, value);
         return this;
     }

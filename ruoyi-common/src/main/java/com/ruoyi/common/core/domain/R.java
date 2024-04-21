@@ -8,9 +8,7 @@ import com.ruoyi.common.constant.HttpStatus;
  *
  * @author ruoyi
  */
-public class R<T> implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+public class R<T> implements Serializable {
 
     /** 成功 */
     public static final int SUCCESS = HttpStatus.SUCCESS;
@@ -64,8 +62,7 @@ public class R<T> implements Serializable
         return restResult(null, code, msg);
     }
 
-    private static <T> R<T> restResult(T data, int code, String msg)
-    {
+    private static <T> R<T> restResult(T data, int code, String msg) {
         R<T> apiResult = new R<>();
         apiResult.setCode(code);
         apiResult.setData(data);

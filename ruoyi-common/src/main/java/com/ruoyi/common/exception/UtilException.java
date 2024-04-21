@@ -5,10 +5,7 @@ package com.ruoyi.common.exception;
  * 
  * @author ruoyi
  */
-public class UtilException extends RuntimeException
-{
-    private static final long serialVersionUID = 8247610319171014183L;
-
+public class UtilException extends RuntimeException {
     public UtilException(Throwable e)
     {
         super(e.getMessage(), e);
