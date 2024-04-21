@@ -27,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("monitor/operlog")
 public class SysOperlogController extends BaseController {
+
     private final ISysOperLogService operLogService;
 
     @PreAuthorize("@ss.hasPermi('monitor:operlog:list')")

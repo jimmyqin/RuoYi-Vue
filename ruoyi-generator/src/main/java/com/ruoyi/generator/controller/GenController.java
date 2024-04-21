@@ -14,6 +14,7 @@ import com.ruoyi.generator.service.IGenTableColumnService;
 import com.ruoyi.generator.service.IGenTableService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
@@ -34,6 +35,7 @@ import java.util.Map;
  *
  * @author ruoyi
  */
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("tool/gen")
@@ -113,7 +115,7 @@ public class GenController extends BaseController {
     @PreAuthorize("@ss.hasRole('admin')")
     @Log(title = "创建表", businessType = BusinessType.OTHER)
     @PostMapping("createTable")
-    public AjaxResult createTableSave(@RequestParam("sql")String sql) {
+    public AjaxResult createTableSave(@RequestParam("sql") String sql) {
         try {
             SqlUtil.filterKeyword(sql);
             Statements sqlStatements = CCJSqlParserUtil.parseStatements(sql);
@@ -131,7 +133,7 @@ public class GenController extends BaseController {
             genTableService.importGenTable(tableList, operName);
             return AjaxResult.success();
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             return AjaxResult.error("创建表结构异常");
         }
     }
