@@ -3,7 +3,10 @@ package com.ruoyi.common.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -31,6 +35,9 @@ public class JsonUtils implements BeanFactoryPostProcessor {
      * @return json字符串
      */
     public static String writeValueAsString(Object value) {
+        if (Objects.isNull(value)) {
+            return null;
+        }
         try {
             return objectMapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
@@ -47,6 +54,9 @@ public class JsonUtils implements BeanFactoryPostProcessor {
      * @return 获得类型T对象实例
      */
     public static <T> T readValue(String value, Class<T> clazz) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
         try {
             return objectMapper.readValue(value, clazz);
         } catch (JsonProcessingException e) {
@@ -63,6 +73,9 @@ public class JsonUtils implements BeanFactoryPostProcessor {
      * @return 获得List实例对象
      */
     public static <T> List<T> readValueList(String value, Class<T> clazz) {
+        if (StringUtils.isBlank(value)) {
+            return Lists.newArrayList();
+        }
         try {
             JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
             return objectMapper.readValue(value, javaType);
@@ -82,6 +95,9 @@ public class JsonUtils implements BeanFactoryPostProcessor {
      * @return 获得Map实例对象
      */
     public static <K, V> Map<K, V> readValueMap(String value, Class<K> keyClazz, Class<V> valueClazz) {
+        if (StringUtils.isBlank(value)) {
+            return Maps.newHashMap();
+        }
         try {
             JavaType javaType = objectMapper.getTypeFactory().constructParametricType(Map.class, keyClazz, valueClazz);
             return objectMapper.readValue(value, javaType);
