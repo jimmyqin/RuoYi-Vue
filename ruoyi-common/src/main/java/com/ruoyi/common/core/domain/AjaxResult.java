@@ -18,7 +18,7 @@ import java.util.Objects;
 @Setter
 public class AjaxResult<T> {
 
-    private int code;
+     private int code;
     private String msg;
     private T data;
 
