@@ -1,0 +1,100 @@
+package com.yuanit.web.controller.system;
+
+import com.yuanit.common.annotation.Log;
+import com.yuanit.common.core.controller.BaseController;
+import com.yuanit.common.core.domain.R;
+import com.yuanit.common.core.domain.entity.SysDictData;
+import com.yuanit.common.core.page.TableDataInfo;
+import com.yuanit.common.enums.BusinessType;
+import com.yuanit.common.utils.poi.ExcelUtil;
+import com.yuanit.system.service.ISysDictDataService;
+import com.yuanit.system.service.ISysDictTypeService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 数据字典信息
+ * 
+ * @author ruoyi
+ */
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("system/dict/data")
+public class SysDictDataController extends BaseController {
+
+    private final ISysDictDataService dictDataService;
+    private final ISysDictTypeService dictTypeService;
+
+    @PreAuthorize("@ss.hasPermi('system:dict:list')")
+    @GetMapping("list")
+    public TableDataInfo list(SysDictData dictData) {
+        startPage();
+        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+        return getDataTable(list);
+    }
+
+    @Log(title = "字典数据", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('system:dict:export')")
+    @PostMapping("export")
+    public void export(HttpServletResponse response, SysDictData dictData) {
+        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+        ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
+        util.exportExcel(response, list, "字典数据");
+    }
+
+    /**
+     * 查询字典数据详细
+     */
+    @PreAuthorize("@ss.hasPermi('system:dict:query')")
+    @GetMapping(value = "/{dictCode}")
+    public R<SysDictData> getInfo(@PathVariable("dictCode") Long dictCode) {
+        return R.ok(dictDataService.selectDictDataById(dictCode));
+    }
+
+    /**
+     * 根据字典类型查询字典数据信息
+     */
+    @GetMapping(value = "/type/{dictType}")
+    public R<List<SysDictData>> dictType(@PathVariable("dictType") String dictType) {
+        List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
+        return R.ok(data);
+    }
+
+    /**
+     * 新增字典类型
+     */
+    @PreAuthorize("@ss.hasPermi('system:dict:add')")
+    @Log(title = "字典数据", businessType = BusinessType.INSERT)
+    @PostMapping
+    public R add(@Validated @RequestBody SysDictData dict) {
+        dict.setCreateBy(getUsername());
+        return R.result(dictDataService.insertDictData(dict));
+    }
+
+    /**
+     * 修改保存字典类型
+     */
+    @PreAuthorize("@ss.hasPermi('system:dict:edit')")
+    @Log(title = "字典数据", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public R edit(@Validated @RequestBody SysDictData dict) {
+        dict.setUpdateBy(getUsername());
+        return R.result(dictDataService.updateDictData(dict));
+    }
+
+    /**
+     * 删除字典类型
+     */
+    @PreAuthorize("@ss.hasPermi('system:dict:remove')")
+    @Log(title = "字典类型", businessType = BusinessType.DELETE)
+    @DeleteMapping("{dictCodes}")
+    public R remove(@PathVariable("dictCodes") Long[] dictCodes) {
+        dictDataService.deleteDictDataByIds(dictCodes);
+        return R.ok();
+    }
+}
