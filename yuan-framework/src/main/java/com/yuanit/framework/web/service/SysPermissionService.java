@@ -7,7 +7,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.yuanit.common.core.domain.entity.SysRole;
 import com.yuanit.common.core.domain.entity.SysUser;
@@ -22,8 +21,9 @@ import com.yuanit.system.service.ISysRoleService;
 @RequiredArgsConstructor
 @Component
 public class SysPermissionService {
-    private ISysRoleService roleService;
-    private ISysMenuService menuService;
+
+    private final ISysRoleService roleService;
+    private final ISysMenuService menuService;
 
     /**
      * 获取角色数据权限

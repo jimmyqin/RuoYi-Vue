@@ -17,6 +17,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 
 /**
@@ -27,6 +28,8 @@ import java.time.format.DateTimeFormatter;
 public class Jackson2ObjectMapperBuilderCustomizerConfiguration implements Jackson2ObjectMapperBuilderCustomizer {
     @Override
     public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
+        // 时区配置
+        jacksonObjectMapperBuilder.timeZone(TimeZone.getDefault());
         //针对于Date类型，文本格式化
         jacksonObjectMapperBuilder.simpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

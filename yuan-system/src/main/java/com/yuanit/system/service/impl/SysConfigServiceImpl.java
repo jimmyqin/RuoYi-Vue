@@ -24,8 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
-    private final SysConfigMapper configMapper;
 
+    private final SysConfigMapper configMapper;
     private final RedisCache redisCache;
 
     /**

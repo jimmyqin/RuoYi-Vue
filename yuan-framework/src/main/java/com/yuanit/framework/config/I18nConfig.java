@@ -16,6 +16,7 @@ import com.yuanit.common.constant.Constants;
  */
 @Configuration
 public class I18nConfig implements WebMvcConfigurer {
+
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();

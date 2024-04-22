@@ -50,7 +50,7 @@ public interface SysDeptMapper {
      * @param deptId 部门ID
      * @return 子部门数
      */
-    int selectNormalChildrenDeptById(Long deptId);
+    Long selectNormalChildrenDeptById(Long deptId);
 
     /**
      * 是否存在子节点
@@ -58,7 +58,7 @@ public interface SysDeptMapper {
      * @param deptId 部门ID
      * @return 结果
      */
-    int hasChildByDeptId(Long deptId);
+    Long hasChildByDeptId(Long deptId);
 
     /**
      * 查询部门是否存在用户
@@ -66,7 +66,7 @@ public interface SysDeptMapper {
      * @param deptId 部门ID
      * @return 结果
      */
-    int checkDeptExistUser(Long deptId);
+    Long checkDeptExistUser(Long deptId);
 
     /**
      * 校验部门名称是否唯一

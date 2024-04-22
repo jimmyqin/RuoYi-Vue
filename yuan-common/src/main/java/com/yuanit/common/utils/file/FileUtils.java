@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import com.yuanit.common.config.RuoYiConfig;
+import com.yuanit.common.config.SysConfig;
 import com.yuanit.common.utils.DateUtils;
 import com.yuanit.common.utils.StringUtils;
 import com.yuanit.common.utils.uuid.IdUtils;
@@ -61,7 +61,7 @@ public class FileUtils {
      * @throws IOException IO异常
      */
     public static String writeImportBytes(byte[] data) throws IOException {
-        return writeBytes(data, RuoYiConfig.getImportPath());
+        return writeBytes(data, SysConfig.getImportPath());
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService {
+
     private final SysDictDataMapper dictDataMapper;
 
     /**

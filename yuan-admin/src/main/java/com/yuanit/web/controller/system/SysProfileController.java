@@ -1,7 +1,7 @@
 package com.yuanit.web.controller.system;
 
 import com.yuanit.common.annotation.Log;
-import com.yuanit.common.config.RuoYiConfig;
+import com.yuanit.common.config.SysConfig;
 import com.yuanit.common.core.controller.BaseController;
 import com.yuanit.common.core.domain.AjaxResult;
 import com.yuanit.common.core.domain.R;
@@ -107,7 +107,7 @@ public class SysProfileController extends BaseController {
             return error("上传图片异常，请联系管理员");
         }
         LoginUser loginUser = getLoginUser();
-        String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+        String avatar = FileUploadUtils.upload(SysConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
         if (userService.updateUserAvatar(loginUser.getUsername(), avatar)) {
             AjaxResult ajax = AjaxResult.success();
             ajax.put("imgUrl", avatar);

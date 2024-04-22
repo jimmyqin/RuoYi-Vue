@@ -68,7 +68,7 @@ import com.yuanit.common.annotation.Excel;
 import com.yuanit.common.annotation.Excel.ColumnType;
 import com.yuanit.common.annotation.Excel.Type;
 import com.yuanit.common.annotation.Excels;
-import com.yuanit.common.config.RuoYiConfig;
+import com.yuanit.common.config.SysConfig;
 import com.yuanit.common.core.domain.AjaxResult;
 import com.yuanit.common.core.text.Convert;
 import com.yuanit.common.exception.UtilException;
@@ -1177,7 +1177,7 @@ public class ExcelUtil<T> {
      * @param filename 文件名称
      */
     public String getAbsoluteFile(String filename) {
-        String downloadPath = RuoYiConfig.getDownloadPath() + filename;
+        String downloadPath = SysConfig.getDownloadPath() + filename;
         File desc = new File(downloadPath);
         if (!desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();

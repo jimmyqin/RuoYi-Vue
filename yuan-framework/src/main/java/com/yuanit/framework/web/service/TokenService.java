@@ -1,12 +1,10 @@
 package com.yuanit.framework.web.service;
 
-import com.google.common.collect.Maps;
 import com.yuanit.common.constant.CacheConstants;
 import com.yuanit.common.constant.Constants;
 import com.yuanit.common.core.domain.model.LoginUser;
 import com.yuanit.common.core.redis.RedisCache;
 import com.yuanit.common.utils.ServletUtils;
-import com.yuanit.common.utils.StringUtils;
 import com.yuanit.common.utils.ip.AddressUtils;
 import com.yuanit.common.utils.ip.IpUtils;
 import com.yuanit.common.utils.uuid.IdUtils;
@@ -17,6 +15,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -60,16 +59,17 @@ public class TokenService {
     public LoginUser getLoginUser(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = getToken(request);
-        if (StringUtils.isNotEmpty(token)) {
-            try {
-                Claims claims = parseToken(token);
-                // 解析对应的权限以及用户信息
-                String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-                String userKey = getTokenKey(uuid);
-                return redisCache.getCacheObject(userKey);
-            } catch (Exception e) {
-                log.error("获取用户信息异常'{}'", e.getMessage());
-            }
+        if (StringUtils.isBlank(token)){
+            return null;
+        }
+        try {
+            Claims claims = parseToken(token);
+            // 解析对应的权限以及用户信息
+            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+            String userKey = getTokenKey(uuid);
+            return redisCache.getCacheObject(userKey);
+        } catch (Exception e) {
+            log.error("获取用户信息异常'{}'", e.getMessage());
         }
         return null;
     }
@@ -78,7 +78,7 @@ public class TokenService {
      * 设置用户身份信息
      */
     public void setLoginUser(LoginUser loginUser) {
-        if (Objects.nonNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken())) {
+        if (Objects.nonNull(loginUser) && StringUtils.isNotBlank(loginUser.getToken())) {
             refreshToken(loginUser);
         }
     }
@@ -87,7 +87,7 @@ public class TokenService {
      * 删除用户身份信息
      */
     public void delLoginUser(String token) {
-        if (StringUtils.isNotEmpty(token)) {
+        if (StringUtils.isNotBlank(token)) {
             String userKey = getTokenKey(token);
             redisCache.deleteObject(userKey);
         }
@@ -196,8 +196,8 @@ public class TokenService {
      */
     private String getToken(HttpServletRequest request) {
         String token = request.getHeader(header);
-        if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
-            token = token.replace(Constants.TOKEN_PREFIX, "");
+        if (StringUtils.isNotBlank(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
+            return token.replace(Constants.TOKEN_PREFIX, "");
         }
         return token;
     }

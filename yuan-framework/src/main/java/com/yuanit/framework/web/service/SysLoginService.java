@@ -12,7 +12,6 @@ import com.yuanit.common.utils.StringUtils;
 import com.yuanit.common.utils.ip.IpUtils;
 import com.yuanit.framework.manager.AsyncManager;
 import com.yuanit.framework.manager.factory.AsyncFactory;
-import com.yuanit.framework.security.context.AuthenticationContextHolder;
 import com.yuanit.system.service.ISysConfigService;
 import com.yuanit.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +60,6 @@ public class SysLoginService {
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             authentication = authenticationManager.authenticate(authenticationToken);
-            AuthenticationContextHolder.setContext(authentication);
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
@@ -70,8 +68,6 @@ public class SysLoginService {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
                 throw e;
             }
-        } finally {
-            AuthenticationContextHolder.clearContext();
         }
         passwordService.clearLoginRecordCache(username);
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
@@ -141,7 +137,7 @@ public class SysLoginService {
     /**
      * 记录登录信息
      *
-     * @param userId 用户ID
+     * @param user 用户
      */
     public void recordLoginInfo(LoginUser user) {
         SysUser sysUser = new SysUser();

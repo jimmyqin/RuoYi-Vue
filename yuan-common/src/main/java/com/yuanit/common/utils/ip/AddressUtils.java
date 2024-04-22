@@ -3,7 +3,7 @@ package com.yuanit.common.utils.ip;
 import com.yuanit.common.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.yuanit.common.config.RuoYiConfig;
+import com.yuanit.common.config.SysConfig;
 import com.yuanit.common.constant.Constants;
 import com.yuanit.common.utils.StringUtils;
 import com.yuanit.common.utils.http.HttpUtils;
@@ -29,7 +29,7 @@ public class AddressUtils {
         if (IpUtils.internalIp(ip)) {
             return "内网IP";
         }
-        if (RuoYiConfig.isAddressEnabled()) {
+        if (SysConfig.isAddressEnabled()) {
             try {
                 String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true", Constants.GBK);
                 if (StringUtils.isEmpty(rspStr)) {

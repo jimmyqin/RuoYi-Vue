@@ -20,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SysPostServiceImpl implements ISysPostService {
+
     private final SysPostMapper postMapper;
     private final SysUserPostMapper userPostMapper;
 
