@@ -8,7 +8,7 @@ import com.yuanit.generator.domain.GenTable;
 /**
  * 业务 服务层
  *
- * @author ruoyi
+ * @author 
  */
 public interface IGenTableService {
     /**

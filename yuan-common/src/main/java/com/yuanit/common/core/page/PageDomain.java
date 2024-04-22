@@ -5,7 +5,7 @@ import com.yuanit.common.utils.StringUtils;
 /**
  * 分页数据
  * 
- * @author ruoyi
+ * @author
  */
 public class PageDomain {
     /** 当前记录起始索引 */

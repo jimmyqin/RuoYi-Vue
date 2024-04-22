@@ -7,7 +7,7 @@ import com.yuanit.quartz.domain.SysJobLog;
 /**
  * 调度任务日志信息 数据层
  *
- * @author ruoyi
+ * @author
  */
 public interface SysJobLogMapper {
     /**

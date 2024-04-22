@@ -5,7 +5,7 @@ import com.yuanit.common.utils.StringUtils;
 /**
  * 路由显示信息
  *
- * @author ruoyi
+ * @author
  */
 public class MetaVo {
     /**

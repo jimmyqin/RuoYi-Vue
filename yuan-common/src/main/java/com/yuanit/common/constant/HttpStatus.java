@@ -3,7 +3,7 @@ package com.yuanit.common.constant;
 /**
  * 返回状态码
  * 
- * @author ruoyi
+ * @author
  */
 public class HttpStatus {
     /**

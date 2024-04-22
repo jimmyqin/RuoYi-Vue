@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 操作状态
  * 
- * @author ruoyi
+ * @author 
  *
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -16,7 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * redis配置
  *
- * @author ruoyi
+ * @author
  */
 @Configuration(proxyBeanMethods = false)
 @EnableCaching

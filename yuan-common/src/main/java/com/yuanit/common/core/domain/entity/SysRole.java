@@ -13,7 +13,7 @@ import com.yuanit.common.core.domain.BaseEntity;
 /**
  * 角色表 sys_role
  * 
- * @author ruoyi
+ * @author
  */
 public class SysRole extends BaseEntity {
 

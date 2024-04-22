@@ -7,7 +7,7 @@ import com.yuanit.common.utils.StringUtils;
 /**
  * 字符集工具类
  * 
- * @author ruoyi
+ * @author 
  */
 public class CharsetKit {
     /** ISO-8859-1 */

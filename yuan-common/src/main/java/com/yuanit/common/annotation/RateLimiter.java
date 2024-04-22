@@ -11,7 +11,7 @@ import com.yuanit.common.enums.LimitType;
 /**
  * 限流注解
  * 
- * @author ruoyi
+ * @author 
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 在线用户监控
  *
- * @author ruoyi
+ * @author
  */
 @Tag(name = "在线用户监控")
 @RequiredArgsConstructor

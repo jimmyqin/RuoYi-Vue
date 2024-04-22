@@ -13,7 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 /**
  * 字典工具类
  *
- * @author ruoyi
+ * @author
  */
 public class DictUtils {
     /**

@@ -6,7 +6,7 @@ import com.yuanit.system.domain.SysUserOnline;
 /**
  * 在线用户 服务层
  *
- * @author ruoyi
+ * @author
  */
 public interface ISysUserOnlineService {
     /**

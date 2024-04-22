@@ -21,7 +21,7 @@ import java.time.ZoneOffset;
 /**
  * 抽象quartz调用
  *
- * @author ruoyi
+ * @author
  */
 public abstract class AbstractQuartzJob implements Job {
     private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);

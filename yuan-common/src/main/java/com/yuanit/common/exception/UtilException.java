@@ -3,7 +3,7 @@ package com.yuanit.common.exception;
 /**
  * 工具类异常
  * 
- * @author ruoyi
+ * @author
  */
 public class UtilException extends RuntimeException {
     public UtilException(Throwable e)

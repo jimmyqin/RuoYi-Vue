@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 业务操作类型
  * 
- * @author ruoyi
+ * @author
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter

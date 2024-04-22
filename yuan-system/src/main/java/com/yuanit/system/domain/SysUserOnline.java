@@ -3,7 +3,7 @@ package com.yuanit.system.domain;
 /**
  * 当前在线会话
  *
- * @author ruoyi
+ * @author 
  */
 public class SysUserOnline {
     /**

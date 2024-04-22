@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 启动程序
  *
- * @author ruoyi
+ * @author
  */
 @SpringBootApplication
 public class AdminApplication {

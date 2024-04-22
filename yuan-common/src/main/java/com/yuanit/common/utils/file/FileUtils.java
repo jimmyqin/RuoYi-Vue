@@ -22,7 +22,7 @@ import org.apache.commons.io.FilenameUtils;
 /**
  * 文件处理工具类
  * 
- * @author ruoyi
+ * @author 
  */
 public class FileUtils {
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
@@ -211,7 +211,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件名称 /profile/upload/2022/04/16/ruoyi.png -- ruoyi.png
+     * 获取文件名称 /profile/upload/2022/04/16/.png -- .png
      * 
      * @param fileName 路径名称
      * @return 没有文件路径的名称
@@ -227,7 +227,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取不带后缀文件名称 /profile/upload/2022/04/16/ruoyi.png -- ruoyi
+     * 获取不带后缀文件名称 /profile/upload/2022/04/16/.png -- 
      * 
      * @param fileName 路径名称
      * @return 没有文件路径和后缀的名称

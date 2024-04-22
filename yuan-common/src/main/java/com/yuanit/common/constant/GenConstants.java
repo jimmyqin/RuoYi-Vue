@@ -3,7 +3,7 @@ package com.yuanit.common.constant;
 /**
  * 代码生成通用常量
  * 
- * @author ruoyi
+ * @author 
  */
 public class GenConstants {
     /** 单表（增删改查） */

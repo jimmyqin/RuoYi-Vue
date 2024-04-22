@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 操作日志记录
  *
- * @author ruoyi
+ * @author
  */
 @Tag(name = "操作日志记录")
 @RequiredArgsConstructor

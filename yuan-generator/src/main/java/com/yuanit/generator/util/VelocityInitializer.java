@@ -8,7 +8,7 @@ import com.yuanit.common.constant.Constants;
 /**
  * VelocityEngine工厂
  *
- * @author ruoyi
+ * @author 
  */
 public class VelocityInitializer {
     /**

@@ -6,7 +6,7 @@ import com.yuanit.common.utils.StringUtils;
 /**
  * sql操作工具类
  *
- * @author ruoyi
+ * @author 
  */
 public class SqlUtil {
     /**

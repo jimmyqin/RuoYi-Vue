@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Entity基类
  * 
- * @author ruoyi
+ * @author
  */
 public class BaseEntity  {
 

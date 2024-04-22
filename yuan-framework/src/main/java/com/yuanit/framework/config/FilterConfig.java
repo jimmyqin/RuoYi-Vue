@@ -16,7 +16,7 @@ import com.yuanit.common.utils.StringUtils;
 /**
  * Filter配置
  *
- * @author ruoyi
+ * @author 
  */
 @Configuration
 public class FilterConfig {

@@ -12,7 +12,7 @@ import com.yuanit.common.core.domain.BaseEntity;
 /**
  * 岗位表 sys_post
  *
- * @author ruoyi
+ * @author 
  */
 public class SysPost extends BaseEntity {
 

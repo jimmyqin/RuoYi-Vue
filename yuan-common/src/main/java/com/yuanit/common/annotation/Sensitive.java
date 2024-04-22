@@ -12,7 +12,7 @@ import com.yuanit.common.enums.DesensitizedType;
 /**
  * 数据脱敏注解
  *
- * @author ruoyi
+ * @author 
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

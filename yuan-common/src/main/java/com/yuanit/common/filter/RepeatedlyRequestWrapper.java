@@ -17,7 +17,7 @@ import com.yuanit.common.constant.Constants;
 /**
  * 构建可重复读取inputStream的request
  * 
- * @author ruoyi
+ * @author 
  */
 public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper {
     private final byte[] body;

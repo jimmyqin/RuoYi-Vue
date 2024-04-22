@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * SpringDoc的接口配置
  *
- * @author ruoyi
+ * @author 
  */
 @Configuration
 @ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true)

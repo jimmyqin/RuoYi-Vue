@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * token验证处理
  *
- * @author ruoyi
+ * @author
  */
 @RequiredArgsConstructor
 @Slf4j

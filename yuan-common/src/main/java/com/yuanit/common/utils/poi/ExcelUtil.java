@@ -84,7 +84,7 @@ import com.yuanit.common.utils.reflect.ReflectUtils;
  * Excel相关处理
  * 使用easyexcel操作,请使用工具类 {@link com.yuanit.common.utils.ExcelUtils }
  *
- * @author ruoyi
+ * @author 
  */
 @Deprecated
 public class ExcelUtil<T> {
